@@ -55,11 +55,11 @@ class LoginView extends StatelessWidget {
               Text('Login', style: theme.textTheme.headline1),
               const SizedBox(height: 16),
               _EmailInput(),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               _PasswordInput(),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               _SignUpButton(),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               _LoginButton(),
             ],
           ),
@@ -76,7 +76,6 @@ class _EmailInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
         return TextField(
-          key: const Key('loginForm_emailInput_textField'),
           onChanged: (email) => context.read<LoginCubit>().emailChanged(email),
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
@@ -97,12 +96,11 @@ class _PasswordInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
         return TextField(
-          key: const Key('loginForm_passwordInput_textField'),
           onChanged: (password) =>
               context.read<LoginCubit>().passwordChanged(password),
           obscureText: true,
           decoration: InputDecoration(
-            labelText: 'Password',
+            labelText: 'Contraseña',
             helperText: '',
             errorText: state.password.invalid ? 'Contraseña inválida' : null,
           ),
@@ -119,7 +117,6 @@ class _LoginButton extends StatelessWidget {
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
         return ElevatedButton(
-          key: const Key('loginForm_continue_raisedButton'),
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
@@ -131,7 +128,7 @@ class _LoginButton extends StatelessWidget {
               : null,
           child: state.status.isSubmissionInProgress
               ? const CircularProgressIndicator()
-              : const Text('LOGIN'),
+              : const Text('INICIAR SESIÓN'),
         );
       },
     );
@@ -143,7 +140,6 @@ class _SignUpButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return TextButton(
-      key: const Key('loginForm_createAccount_flatButton'),
       onPressed: () => Navigator.of(context).push<void>(SignUpPage.route()),
       child: Text(
         '¿Aún no tienes cuenta? Haz clic aquí para registrarte',
