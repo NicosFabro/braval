@@ -9,19 +9,38 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 
-import 'package:braval/app/app.dart';
+// App
+import 'package:braval/app/view/app.dart';
 import 'package:braval/app/app_bloc_observer.dart';
 
-void main() {
+// Packages
+import 'package:authentication_repository/authentication_repository.dart';
+import 'package:profile_repository/profile_repository.dart';
+
+Future<void> main() async {
   Bloc.observer = AppBlocObserver();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
 
+  final authenticationRepository = AuthenticationRepository();
+  final profileRepository = ProfileRepository();
+
+  await authenticationRepository.user.first;
+
   runZonedGuarded(
-    () => runApp(const App()),
+    () => runApp(
+      App(
+        authenticationRepository: authenticationRepository,
+        profileRepository: profileRepository,
+      ),
+    ),
     (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
   );
 }
