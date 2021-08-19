@@ -26,6 +26,8 @@ dependencies:
   intl: ^0.17.0
   profile_repository:
     path: packages/profile_repository
+  team_repository:
+    path: packages/team_repository
   very_good_analysis: ^2.1.0
 
 dev_dependencies:

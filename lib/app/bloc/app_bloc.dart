@@ -6,6 +6,7 @@ import 'package:equatable/equatable.dart';
 // Packages
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:profile_repository/profile_repository.dart';
+import 'package:team_repository/team_repository.dart';
 import 'package:very_good_analysis/very_good_analysis.dart';
 
 // Bloc
@@ -15,9 +16,7 @@ part 'app_state.dart';
 class AppBloc extends Bloc<AppEvent, AppState> {
   AppBloc({
     required AuthenticationRepository authenticationRepository,
-    required ProfileRepository profileRepository,
   })  : _authenticationRepository = authenticationRepository,
-        _profileRepository = profileRepository,
         super(
           authenticationRepository.currentUser.isNotEmpty
               ? AppState.authenticated(authenticationRepository.currentUser)
@@ -27,7 +26,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   }
 
   final AuthenticationRepository _authenticationRepository;
-  final ProfileRepository _profileRepository;
 
   late final StreamSubscription<User> _userSubscription;
 

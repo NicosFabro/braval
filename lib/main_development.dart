@@ -19,6 +19,7 @@ import 'package:braval/app/app_bloc_observer.dart';
 // Packages
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:profile_repository/profile_repository.dart';
+import 'package:team_repository/team_repository.dart';
 
 Future<void> main() async {
   Bloc.observer = AppBlocObserver();
@@ -31,6 +32,7 @@ Future<void> main() async {
 
   final authenticationRepository = AuthenticationRepository();
   final profileRepository = ProfileRepository();
+  final teamRepository = TeamRepository();
 
   await authenticationRepository.user.first;
 
@@ -39,6 +41,7 @@ Future<void> main() async {
       App(
         authenticationRepository: authenticationRepository,
         profileRepository: profileRepository,
+        teamRepository: teamRepository,
       ),
     ),
     (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),

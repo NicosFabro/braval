@@ -14,6 +14,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 // Packages
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:profile_repository/profile_repository.dart';
+import 'package:team_repository/team_repository.dart';
 
 // App
 import 'package:braval/app/app.dart';
@@ -26,12 +27,15 @@ class App extends StatelessWidget {
     Key? key,
     required AuthenticationRepository authenticationRepository,
     required ProfileRepository profileRepository,
+    required TeamRepository teamRepository,
   })  : _authenticationRepository = authenticationRepository,
         _profileRepository = profileRepository,
+        _teamRepository = teamRepository,
         super(key: key);
 
   final AuthenticationRepository _authenticationRepository;
   final ProfileRepository _profileRepository;
+  final TeamRepository _teamRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +43,11 @@ class App extends StatelessWidget {
       providers: [
         RepositoryProvider.value(value: _authenticationRepository),
         RepositoryProvider.value(value: _profileRepository),
+        RepositoryProvider.value(value: _teamRepository),
       ],
       child: BlocProvider<AppBloc>(
         create: (_) => AppBloc(
           authenticationRepository: _authenticationRepository,
-          profileRepository: _profileRepository,
         ),
         child: const AppView(),
       ),
