@@ -10,6 +10,11 @@ class ProfileRepository {
     return Profile.fromEntity(ProfileEntity.fromSnapshot(documentSnapshot));
   }
 
+  Future<void> createProfile(Profile profile) async {
+    DocumentReference ref = profilesRepository.doc(profile.id);
+    await ref.set(profile.toEntity().toDocument());
+  }
+
   Future<void> editProfile(Profile profile) async {
     await profilesRepository
         .doc(profile.id)

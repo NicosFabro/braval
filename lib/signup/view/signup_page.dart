@@ -4,6 +4,7 @@ import 'package:braval_ui/braval_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:profile_repository/profile_repository.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -18,7 +19,10 @@ class SignUpPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: BlocProvider(
-          create: (_) => SignUpCubit(context.read<AuthenticationRepository>()),
+          create: (_) => SignUpCubit(
+            context.read<AuthenticationRepository>(),
+            context.read<ProfileRepository>(),
+          ),
           child: const SignUpView(),
         ),
       ),
@@ -63,6 +67,10 @@ class SignUpView extends StatelessWidget {
               BravalSpaces.elementsSeparator,
               _EmailInput(),
               BravalSpaces.elementsSeparator,
+              _NameInput(),
+              BravalSpaces.elementsSeparator,
+              _SurnameInput(),
+              BravalSpaces.elementsSeparator,
               _PasswordInput(),
               BravalSpaces.elementsSeparator,
               _ConfirmPasswordInput(),
@@ -99,6 +107,45 @@ class _EmailInput extends StatelessWidget {
   }
 }
 
+class _NameInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpCubit, SignUpState>(
+      buildWhen: (previous, current) => previous.email != current.email,
+      builder: (context, state) {
+        return BravalTextInput(
+          label: 'Nombre',
+          hint: 'Nicos',
+          inputType: TextInputType.name,
+          textInputAction: TextInputAction.next,
+          onChanged: (name) => context.read<SignUpCubit>().nameChanged(name),
+          errorText: state.email.invalid ? 'Nombre inválido' : null,
+        );
+      },
+    );
+  }
+}
+
+class _SurnameInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpCubit, SignUpState>(
+      buildWhen: (previous, current) => previous.email != current.email,
+      builder: (context, state) {
+        return BravalTextInput(
+          label: 'Apellido',
+          hint: 'Fabro',
+          inputType: TextInputType.name,
+          textInputAction: TextInputAction.next,
+          onChanged: (surname) =>
+              context.read<SignUpCubit>().surnameChanged(surname),
+          errorText: state.email.invalid ? 'Apellido inválido' : null,
+        );
+      },
+    );
+  }
+}
+
 class _PasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -109,6 +156,7 @@ class _PasswordInput extends StatelessWidget {
           label: 'Contraseña',
           hint: '*********',
           inputType: TextInputType.visiblePassword,
+          textInputAction: TextInputAction.next,
           obscureText: true,
           onChanged: (password) =>
               context.read<SignUpCubit>().passwordChanged(password),
