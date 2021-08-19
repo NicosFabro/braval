@@ -1,4 +1,6 @@
+import 'package:braval_ui/braval_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 
@@ -43,7 +45,13 @@ class LoginView extends StatelessWidget {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
-              const SnackBar(content: Text('Authentication Failure')),
+              BravalSnackBars.errorSnackBar(
+                'Error al crear el usuario',
+                'Revisa los datos introducidos o '
+                    '\nvuelve a intentarlo más tarde',
+                titleStyle: Theme.of(context).textTheme.subtitle1!,
+                descriptionStyle: Theme.of(context).textTheme.subtitle2!,
+              ),
             );
         }
       },
@@ -53,13 +61,13 @@ class LoginView extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text('Login', style: theme.textTheme.headline1),
-              const SizedBox(height: 16),
+              BravalSpaces.elementsSeparator,
               _EmailInput(),
-              const SizedBox(height: 8),
+              BravalSpaces.elementsSeparator,
               _PasswordInput(),
-              const SizedBox(height: 8),
+              BravalSpaces.elementsSeparator,
               _SignUpButton(),
-              const SizedBox(height: 8),
+              BravalSpaces.elementsSeparator,
               _LoginButton(),
             ],
           ),
@@ -75,14 +83,13 @@ class _EmailInput extends StatelessWidget {
     return BlocBuilder<LoginCubit, LoginState>(
       buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
-        return TextField(
+        return BravalTextInput(
+          label: 'Email',
+          hint: 'nicos@example.com',
+          inputType: TextInputType.emailAddress,
+          textInputAction: TextInputAction.next,
           onChanged: (email) => context.read<LoginCubit>().emailChanged(email),
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-            labelText: 'Email',
-            helperText: '',
-            errorText: state.email.invalid ? 'Email inválido' : null,
-          ),
+          errorText: state.email.invalid ? 'Email inválido' : null,
         );
       },
     );
@@ -95,15 +102,13 @@ class _PasswordInput extends StatelessWidget {
     return BlocBuilder<LoginCubit, LoginState>(
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
-        return TextField(
+        return BravalTextInput(
+          label: 'Contraseña',
+          hint: '*********',
+          inputType: TextInputType.visiblePassword,
+          obscureText: true,
           onChanged: (password) =>
               context.read<LoginCubit>().passwordChanged(password),
-          obscureText: true,
-          decoration: InputDecoration(
-            labelText: 'Contraseña',
-            helperText: '',
-            errorText: state.password.invalid ? 'Contraseña inválida' : null,
-          ),
         );
       },
     );
@@ -116,19 +121,16 @@ class _LoginButton extends StatelessWidget {
     return BlocBuilder<LoginCubit, LoginState>(
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
-        return ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-            primary: const Color(0xFFFFD600),
+        return SizedBox(
+          width: 300,
+          child: ElevatedButton(
+            onPressed: state.status.isValidated
+                ? () => context.read<LoginCubit>().logInWithCredentials()
+                : null,
+            child: state.status.isSubmissionInProgress
+                ? const CircularProgressIndicator()
+                : const Text('INICIAR SESIÓN'),
           ),
-          onPressed: state.status.isValidated
-              ? () => context.read<LoginCubit>().logInWithCredentials()
-              : null,
-          child: state.status.isSubmissionInProgress
-              ? const CircularProgressIndicator()
-              : const Text('INICIAR SESIÓN'),
         );
       },
     );
