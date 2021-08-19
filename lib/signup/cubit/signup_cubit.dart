@@ -6,6 +6,7 @@ import 'package:formz/formz.dart';
 // Packages
 import 'package:form_inputs/form_inputs.dart';
 import 'package:profile_repository/profile_repository.dart';
+import 'package:team_repository/team_repository.dart';
 
 part 'signup_state.dart';
 
@@ -13,10 +14,12 @@ class SignUpCubit extends Cubit<SignUpState> {
   SignUpCubit(
     this._authenticationRepository,
     this._profileRepository,
+    this._teamRepository,
   ) : super(const SignUpState());
 
   final AuthenticationRepository _authenticationRepository;
   final ProfileRepository _profileRepository;
+  final TeamRepository _teamRepository;
 
   void emailChanged(String value) {
     final email = Email.dirty(value);
@@ -97,20 +100,41 @@ class SignUpCubit extends Cubit<SignUpState> {
     ));
   }
 
-  // void sportChanged(String? value) {
-  //   if (value == null) return;
+  void sportChanged(String? value) {
+    if (value == null) return;
+    emit(state.copyWith(
+      sport: value,
+      status: Formz.validate([
+        state.email,
+        state.password,
+        state.confirmedPassword,
+      ]),
+    ));
+  }
 
-  //   final sport = Sport.dirty(value);
-  //   emit(state.copyWith(
-  //     sport: sport,
-  //     status: Formz.validate([
-  //       state.email,
-  //       state.password,
-  //       state.confirmedPassword,
-  //       sport,
-  //     ]),
-  //   ));
-  // }
+  void teamChanged(String? value) {
+    if (value == null) return;
+    emit(state.copyWith(
+      team: value,
+      status: Formz.validate([
+        state.email,
+        state.password,
+        state.confirmedPassword,
+      ]),
+    ));
+  }
+
+  void roleChanged(String? value) {
+    if (value == null) return;
+    emit(state.copyWith(
+      role: value,
+      status: Formz.validate([
+        state.email,
+        state.password,
+        state.confirmedPassword,
+      ]),
+    ));
+  }
 
   Future<void> signUpFormSubmitted() async {
     if (!state.status.isValidated) return;
@@ -120,6 +144,7 @@ class SignUpCubit extends Cubit<SignUpState> {
         email: state.email.value,
         password: state.password.value,
       );
+      final teamId = getTeamId();
       final profile = Profile(
         id: userCredentials.user!.uid,
         name: state.name.value,
@@ -127,15 +152,25 @@ class SignUpCubit extends Cubit<SignUpState> {
         email: state.email.value,
         birthday: null,
         dateCreated: DateTime.now(),
-        currentTeam: '',
-        teamHistory: [],
+        currentTeam: teamId,
+        teamHistory: [teamId],
         avatarURL: '',
         achievements: [],
       );
       await _profileRepository.createProfile(profile);
+      await _teamRepository.addVolunteer(
+        teamId,
+        userCredentials.user!.uid,
+        state.role,
+      );
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } on Exception {
       emit(state.copyWith(status: FormzStatus.submissionFailure));
     }
+  }
+
+  String getTeamId() {
+    final sport = state.sport == 'football' ? 'f' : 'b';
+    return '$sport-${state.team}-21_22';
   }
 }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:profile_repository/profile_repository.dart';
+import 'package:team_repository/team_repository.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -22,6 +23,7 @@ class SignUpPage extends StatelessWidget {
           create: (_) => SignUpCubit(
             context.read<AuthenticationRepository>(),
             context.read<ProfileRepository>(),
+            context.read<TeamRepository>(),
           ),
           child: const SignUpView(),
         ),
@@ -75,8 +77,12 @@ class SignUpView extends StatelessWidget {
               BravalSpaces.elementsSeparator,
               _ConfirmPasswordInput(),
               BravalSpaces.elementsSeparator,
-              // TODO: re-write SportInput and TeamInput
-              // _SportInput(),
+              _SportInput(),
+              BravalSpaces.elementsSeparator,
+              _TeamInput(),
+              BravalSpaces.elementsSeparator,
+              _RoleInput(),
+              BravalSpaces.elementsSeparator,
               _LoginButton(),
               BravalSpaces.elementsSeparator,
               _SignUpButton(),
@@ -191,25 +197,71 @@ class _ConfirmPasswordInput extends StatelessWidget {
   }
 }
 
-// class _SportInput extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<SignUpCubit, SignUpState>(
-//       buildWhen: (previous, current) => previous.sport != current.sport,
-//       builder: (context, state) {
-//         return DropdownButton<String>(
-//           value: context.read<SignUpCubit>().state.sport.value,
-//           onChanged: (sport) => context.read<SignUpCubit>().sportChanged(sport),
-//           icon: const Icon(Icons.arrow_drop_down),
-//           isExpanded: true,
-//           items: ['Fútbol', 'Básquet']
-//               .map((e) => DropdownMenuItem<String>(value: e, child: Text(e)))
-//               .toList(),
-//         );
-//       },
-//     );
-//   }
-// }
+class _SportInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpCubit, SignUpState>(
+      buildWhen: (previous, current) => previous.sport != current.sport,
+      builder: (context, state) {
+        return BravalDropdownButton(
+          label: 'Deporte',
+          value: context.read<SignUpCubit>().state.sport,
+          onChanged: (sport) => context.read<SignUpCubit>().sportChanged(sport),
+          items: ['football', 'basket']
+              .map((e) => DropdownMenuItem<String>(
+                    value: e,
+                    child: Text(e.translateSport()),
+                  ))
+              .toList(),
+        );
+      },
+    );
+  }
+}
+
+class _TeamInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpCubit, SignUpState>(
+      buildWhen: (previous, current) => previous.team != current.team,
+      builder: (context, state) {
+        return BravalDropdownButton(
+          label: 'Categoria',
+          value: context.read<SignUpCubit>().state.team,
+          onChanged: (team) => context.read<SignUpCubit>().teamChanged(team),
+          items: ['juv', 'cad', 'inf']
+              .map((e) => DropdownMenuItem<String>(
+                    value: e,
+                    child: Text(e.team()),
+                  ))
+              .toList(),
+        );
+      },
+    );
+  }
+}
+
+class _RoleInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpCubit, SignUpState>(
+      buildWhen: (previous, current) => previous.role != current.role,
+      builder: (context, state) {
+        return BravalDropdownButton(
+          label: 'Rol',
+          value: context.read<SignUpCubit>().state.role,
+          onChanged: (role) => context.read<SignUpCubit>().roleChanged(role),
+          items: ['coach', 'delegate']
+              .map((e) => DropdownMenuItem<String>(
+                    value: e,
+                    child: Text(e.role()),
+                  ))
+              .toList(),
+        );
+      },
+    );
+  }
+}
 
 class _LoginButton extends StatelessWidget {
   @override
@@ -244,5 +296,42 @@ class _SignUpButton extends StatelessWidget {
         );
       },
     );
+  }
+}
+
+extension StringExtension on String {
+  String translateSport() {
+    switch (this) {
+      case 'football':
+        return 'Fútbol';
+      case 'basket':
+        return 'Básquet';
+      default:
+        return '';
+    }
+  }
+
+  String team() {
+    switch (this) {
+      case 'juv':
+        return 'Juvenil';
+      case 'cad':
+        return 'Cadete';
+      case 'inf':
+        return 'Infantil';
+      default:
+        return '';
+    }
+  }
+
+  String role() {
+    switch (this) {
+      case 'coach':
+        return 'Entrenador';
+      case 'delegate':
+        return 'Delegado';
+      default:
+        return '';
+    }
   }
 }

@@ -9,6 +9,9 @@ class SignUpState extends Equatable {
     this.surname = const Surname.pure(),
     this.password = const Password.pure(),
     this.confirmedPassword = const ConfirmedPassword.pure(),
+    this.sport = 'football',
+    this.team = 'juv',
+    this.role = 'coach',
     this.status = FormzStatus.pure,
   });
 
@@ -17,6 +20,9 @@ class SignUpState extends Equatable {
   final Surname surname;
   final Password password;
   final ConfirmedPassword confirmedPassword;
+  final String sport;
+  final String team;
+  final String role;
   final FormzStatus status;
 
   @override
@@ -26,6 +32,9 @@ class SignUpState extends Equatable {
         surname,
         password,
         confirmedPassword,
+        sport,
+        team,
+        role,
         status,
       ];
 
@@ -35,6 +44,9 @@ class SignUpState extends Equatable {
     Surname? surname,
     Password? password,
     ConfirmedPassword? confirmedPassword,
+    String? sport,
+    String? team,
+    String? role,
     FormzStatus? status,
   }) {
     return SignUpState(
@@ -43,6 +55,9 @@ class SignUpState extends Equatable {
       surname: surname ?? this.surname,
       password: password ?? this.password,
       confirmedPassword: confirmedPassword ?? this.confirmedPassword,
+      sport: sport ?? this.sport,
+      team: team ?? this.team,
+      role: role ?? this.role,
       status: status ?? this.status,
     );
   }
