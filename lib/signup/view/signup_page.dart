@@ -1,5 +1,6 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:braval/signup/cubit/signup_cubit.dart';
+import 'package:braval_ui/braval_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -44,7 +45,11 @@ class SignUpView extends StatelessWidget {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
-              const SnackBar(content: Text('Usuario creado')),
+              BravalSnackBars.successSnackBar(
+                'Se ha creado el usuario',
+                titleStyle: Theme.of(context).textTheme.subtitle1!,
+                descriptionStyle: Theme.of(context).textTheme.subtitle2!,
+              ),
             );
           Navigator.of(context).pop();
         }
@@ -55,16 +60,17 @@ class SignUpView extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text('Registro', style: theme.textTheme.headline1),
-              const SizedBox(height: 16),
+              BravalSpaces.elementsSeparator,
               _EmailInput(),
-              const SizedBox(height: 8),
+              BravalSpaces.elementsSeparator,
               _PasswordInput(),
-              const SizedBox(height: 8),
+              BravalSpaces.elementsSeparator,
               _ConfirmPasswordInput(),
-              const SizedBox(height: 8),
+              BravalSpaces.elementsSeparator,
               // TODO: re-write SportInput and TeamInput
               // _SportInput(),
-              // const SizedBox(height: 8),
+              _LoginButton(),
+              BravalSpaces.elementsSeparator,
               _SignUpButton(),
             ],
           ),
@@ -80,14 +86,13 @@ class _EmailInput extends StatelessWidget {
     return BlocBuilder<SignUpCubit, SignUpState>(
       buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
-        return TextField(
+        return BravalTextInput(
+          label: 'Email',
+          hint: 'nicos@example.com',
+          inputType: TextInputType.emailAddress,
+          textInputAction: TextInputAction.next,
           onChanged: (email) => context.read<SignUpCubit>().emailChanged(email),
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-            labelText: 'Email',
-            helperText: '',
-            errorText: state.email.invalid ? 'Email inválido' : null,
-          ),
+          errorText: state.email.invalid ? 'Email inválido' : null,
         );
       },
     );
@@ -100,15 +105,14 @@ class _PasswordInput extends StatelessWidget {
     return BlocBuilder<SignUpCubit, SignUpState>(
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
-        return TextField(
+        return BravalTextInput(
+          label: 'Contraseña',
+          hint: '*********',
+          inputType: TextInputType.visiblePassword,
+          obscureText: true,
           onChanged: (password) =>
               context.read<SignUpCubit>().passwordChanged(password),
-          obscureText: true,
-          decoration: InputDecoration(
-            labelText: 'Contraseña',
-            helperText: '',
-            errorText: state.password.invalid ? 'Contraseña inválida' : null,
-          ),
+          errorText: state.password.invalid ? 'Contraseña inválida' : null,
         );
       },
     );
@@ -123,18 +127,16 @@ class _ConfirmPasswordInput extends StatelessWidget {
           previous.password != current.password ||
           previous.confirmedPassword != current.confirmedPassword,
       builder: (context, state) {
-        return TextField(
-          onChanged: (confirmPassword) => context
-              .read<SignUpCubit>()
-              .confirmedPasswordChanged(confirmPassword),
+        return BravalTextInput(
+          label: 'Confirmar contraseña',
+          hint: '*********',
+          inputType: TextInputType.visiblePassword,
           obscureText: true,
-          decoration: InputDecoration(
-            labelText: 'Confirmar contraseña',
-            helperText: '',
-            errorText: state.confirmedPassword.invalid
-                ? 'Las contraseñas no coinciden'
-                : null,
-          ),
+          onChanged: (password) =>
+              context.read<SignUpCubit>().confirmedPasswordChanged(password),
+          errorText: state.confirmedPassword.invalid
+              ? 'Las contraseñas no coinciden'
+              : null,
         );
       },
     );
@@ -161,26 +163,37 @@ class _ConfirmPasswordInput extends StatelessWidget {
 //   }
 // }
 
+class _LoginButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return TextButton(
+      onPressed: () => Navigator.of(context).pop(),
+      child: Text(
+        '¿Ya tienes cuenta? Haz clic aquí para iniciar sesión',
+        style: theme.textTheme.subtitle2,
+      ),
+    );
+  }
+}
+
 class _SignUpButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpCubit, SignUpState>(
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
-        return state.status.isSubmissionInProgress
-            ? const CircularProgressIndicator()
-            : ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  primary: Colors.orangeAccent,
-                ),
-                onPressed: state.status.isValidated
-                    ? () => context.read<SignUpCubit>().signUpFormSubmitted()
-                    : null,
-                child: const Text('REGISTRARSE'),
-              );
+        return SizedBox(
+          width: 300,
+          child: ElevatedButton(
+            onPressed: state.status.isValidated
+                ? () => context.read<SignUpCubit>().signUpFormSubmitted()
+                : null,
+            child: state.status.isSubmissionInProgress
+                ? const CircularProgressIndicator()
+                : const Text('REGISTRARSE'),
+          ),
+        );
       },
     );
   }
