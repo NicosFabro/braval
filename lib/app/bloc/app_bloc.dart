@@ -16,7 +16,9 @@ part 'app_state.dart';
 class AppBloc extends Bloc<AppEvent, AppState> {
   AppBloc({
     required AuthenticationRepository authenticationRepository,
+    required ProfileRepository profileRepository,
   })  : _authenticationRepository = authenticationRepository,
+        _profileRepository = profileRepository,
         super(
           authenticationRepository.currentUser.isNotEmpty
               ? AppState.authenticated(authenticationRepository.currentUser)
@@ -26,6 +28,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   }
 
   final AuthenticationRepository _authenticationRepository;
+  final ProfileRepository _profileRepository;
 
   late final StreamSubscription<User> _userSubscription;
 
@@ -48,9 +51,15 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     }
   }
 
-  AppState _mapUserChangedToState(AppUserChanged event, AppState state) {
-    return event.user.isNotEmpty
-        ? AppState.authenticated(event.user)
-        : const AppState.unauthenticated();
+  AppState _mapUserChangedToState(
+    AppUserChanged event,
+    AppState state,
+  ) {
+    if (event.user.isNotEmpty) {
+      // final profile = await _profileRepository.getProfileById(event.user.id);
+      return AppState.authenticated(event.user);
+    } else {
+      return const AppState.unauthenticated();
+    }
   }
 }

@@ -5,8 +5,6 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import 'package:braval_ui/braval_ui.dart';
-import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -15,9 +13,16 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:profile_repository/profile_repository.dart';
 import 'package:team_repository/team_repository.dart';
+import 'package:braval_ui/braval_ui.dart';
 
 // App
 import 'package:braval/app/app.dart';
+
+// SplashScreen
+import 'package:braval/splash_screen/splash_screen.dart';
+
+// Login
+import 'package:braval/login/login.dart';
 
 // l10n
 import 'package:braval/l10n/l10n.dart';
@@ -48,6 +53,7 @@ class App extends StatelessWidget {
       child: BlocProvider<AppBloc>(
         create: (_) => AppBloc(
           authenticationRepository: _authenticationRepository,
+          profileRepository: _profileRepository,
         ),
         child: const AppView(),
       ),
@@ -69,10 +75,9 @@ class AppView extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      home: FlowBuilder<AppStatus>(
-        state: context.select((AppBloc appBloc) => appBloc.state.status),
-        onGeneratePages: onGenerateAppViewPages,
-      ),
+      home: context.read<AppBloc>().state.status == AppStatus.authenticated
+          ? const SplashScreen()
+          : const LoginPage(),
     );
   }
 }

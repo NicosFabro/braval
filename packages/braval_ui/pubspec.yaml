@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  table_calendar: ^3.0.2
   very_good_analysis: ^2.1.0
 
 dev_dependencies:

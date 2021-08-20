@@ -16,8 +16,6 @@ import 'package:authentication_repository/authentication_repository.dart';
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
 
-  static Page page() => const MaterialPage<void>(child: LoginPage());
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

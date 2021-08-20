@@ -16,6 +16,7 @@ class BravalTheme {
       dialogTheme: _dialogTheme,
       tooltipTheme: _tooltipTheme,
       tabBarTheme: _tabBarTheme,
+      bottomNavigationBarTheme: _bottomNavigationBarTheme,
       dividerTheme: _dividerTheme,
       scaffoldBackgroundColor: BravalColors.tuna,
     );
@@ -94,14 +95,28 @@ class BravalTheme {
   static TabBarTheme get _tabBarTheme {
     return const TabBarTheme(
       indicator: UnderlineTabIndicator(
-        borderSide: BorderSide(
-          width: 2.0,
-          color: BravalColors.oceanGreen,
-        ),
+        borderSide: BorderSide(width: 2, color: BravalColors.oceanGreen),
       ),
       labelColor: BravalColors.oceanGreen,
       unselectedLabelColor: BravalColors.white,
       indicatorSize: TabBarIndicatorSize.tab,
+    );
+  }
+
+  static BottomNavigationBarThemeData get _bottomNavigationBarTheme {
+    return BottomNavigationBarThemeData(
+      backgroundColor: BravalColors.shark,
+      selectedItemColor: BravalColors.oceanGreen,
+      unselectedItemColor: BravalColors.silver,
+      selectedLabelStyle: BravalTextStyle.bodyText2.copyWith(
+        color: BravalColors.oceanGreen,
+      ),
+      unselectedLabelStyle: BravalTextStyle.bodyText2.copyWith(
+        color: BravalColors.silver,
+      ),
+      type: BottomNavigationBarType.fixed,
+      showSelectedLabels: true,
+      showUnselectedLabels: true,
     );
   }
 
