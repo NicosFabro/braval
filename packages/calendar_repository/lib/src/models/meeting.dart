@@ -12,8 +12,10 @@ class Meeting extends Event {
 
   static const empty = Meeting(id: '', date: null);
 
+  @override
   bool get isEmpty => this == Meeting.empty;
 
+  @override
   bool get isNotEmpty => this != Meeting.empty;
 
   MeetingEntity toEntity() => MeetingEntity(id, date);

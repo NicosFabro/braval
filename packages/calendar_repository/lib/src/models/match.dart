@@ -42,8 +42,10 @@ class Match extends Event {
     lineup: [],
   );
 
+  @override
   bool get isEmpty => this == Match.empty;
 
+  @override
   bool get isNotEmpty => this != Match.empty;
 
   MatchEntity toEntity() => MatchEntity(

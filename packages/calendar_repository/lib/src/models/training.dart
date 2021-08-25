@@ -12,8 +12,10 @@ class Training extends Event {
 
   static const empty = Training(id: '', date: null);
 
+  @override
   bool get isEmpty => this == Training.empty;
 
+  @override
   bool get isNotEmpty => this != Training.empty;
 
   TrainingEntity toEntity() => TrainingEntity(id, date);

@@ -12,8 +12,10 @@ class Study extends Event {
 
   static const empty = Study(id: '', date: null);
 
+  @override
   bool get isEmpty => this == Study.empty;
 
+  @override
   bool get isNotEmpty => this != Study.empty;
 
   StudyEntity toEntity() => StudyEntity(id, date);

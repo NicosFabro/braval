@@ -1,21 +1,18 @@
-import 'package:braval/calendar/events/events_bloc.dart';
 import 'package:braval/profile/bloc/profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Packages
 import 'package:braval_ui/braval_ui.dart';
-import 'package:calendar_repository/calendar_repository.dart';
 
 // Bloc
-import 'package:braval/calendar/meeting_bloc/meeting_bloc.dart';
+import 'package:braval/calendar/events/events_bloc.dart';
 
 class CalendarPage extends StatelessWidget {
   const CalendarPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // final String teamId = context.read<ProfileBloc>().state.currentTeam;
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,

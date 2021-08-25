@@ -6,7 +6,6 @@ import 'package:braval/profile/bloc/profile_bloc.dart';
 import 'package:braval_ui/braval_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:profile_repository/profile_repository.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);

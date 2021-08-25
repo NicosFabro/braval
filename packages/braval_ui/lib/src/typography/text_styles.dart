@@ -1,8 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:braval_ui/braval_ui.dart';
 
-import 'font_weights.dart';
-
 /// Braval Text Style Definitions
 class BravalTextStyle {
   static const _baseTextStyle = TextStyle(
