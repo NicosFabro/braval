@@ -8,9 +8,11 @@ class BravalTableCalendar extends StatefulWidget {
   const BravalTableCalendar({
     Key? key,
     required this.events,
+    required this.onDateSelected,
   }) : super(key: key);
 
   final List<Event>? events;
+  final Function(DateTime) onDateSelected;
 
   @override
   _BravalTableCalendarState createState() => _BravalTableCalendarState();
@@ -29,6 +31,13 @@ class _BravalTableCalendarState extends State<BravalTableCalendar> {
     } else {
       return BravalColors.silver;
     }
+  }
+
+  void _onDaySelected(DateTime date, DateTime _) {
+    setState(() {
+      dateSelected = date;
+    });
+    widget.onDateSelected(date);
   }
 
   @override
@@ -99,12 +108,6 @@ class _BravalTableCalendarState extends State<BravalTableCalendar> {
         ),
       ),
     );
-  }
-
-  void _onDaySelected(DateTime date, DateTime _) {
-    setState(() {
-      dateSelected = date;
-    });
   }
 }
 
