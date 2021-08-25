@@ -31,7 +31,7 @@ class _BravalTableCalendarState extends State<BravalTableCalendar> {
     }
   }
 
-  Event? _getFirstEventFromDate(DateTime date) {
+  Event _getFirstEventFromDate(DateTime date) {
     return widget.events!.firstWhere((event) => event.date!.isSameDate(date));
   }
 
@@ -58,6 +58,9 @@ class _BravalTableCalendarState extends State<BravalTableCalendar> {
       },
       locale: 'es_ES',
       focusedDay: dateSelected,
+      selectedDayPredicate: (date) => date == dateSelected,
+      onDaySelected: _onDaySelected,
+      currentDay: DateTime.now(),
       firstDay: DateTime.utc(2021, 8),
       lastDay: DateTime.utc(2022, 8, 31),
       availableCalendarFormats: const {CalendarFormat.month: 'month'},
@@ -98,8 +101,6 @@ class _BravalTableCalendarState extends State<BravalTableCalendar> {
           color: BravalColors.oceanGreen,
         ),
       ),
-      selectedDayPredicate: (date) => date == dateSelected,
-      onDaySelected: _onDaySelected,
     );
   }
 
