@@ -38,7 +38,7 @@ class MatchEntity extends Equatable {
 
   static MatchEntity fromSnapshot(DocumentSnapshot snap) => MatchEntity(
         snap.get('id') as String,
-        snap.get('date') as DateTime,
+        (snap.get('date') as Timestamp).toDate(),
         snap.get('rival') as String,
         snap.get('address') as String,
         snap.get('isLocal') as bool,

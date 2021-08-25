@@ -21,19 +21,37 @@ class CalendarRepository {
         );
   }
 
-  Future<List<Study>> getAllStudy(String teamId) async {
-    final team = teamsCollection.doc(teamId);
-    final study = await team.collection('study').get();
-    return study.docs
-        .map((snap) => Study.fromEntity(StudyEntity.fromSnapshot(snap)))
-        .toList();
+  Stream<List<Study>> getAllStudy(String teamId) {
+    return teamsCollection.doc(teamId).collection('study').snapshots().map(
+          (snap) => snap.docs
+              .map((doc) => Study.fromEntity(StudyEntity.fromSnapshot(doc)))
+              .toList(),
+        );
   }
 
-  Future<List<Training>> getAllTrainings(String teamId) async {
-    final team = teamsCollection.doc(teamId);
-    final trainings = await team.collection('trainings').get();
-    return trainings.docs
-        .map((snap) => Training.fromEntity(TrainingEntity.fromSnapshot(snap)))
-        .toList();
+  Stream<List<Training>> getAllTrainings(String teamId) {
+    return teamsCollection.doc(teamId).collection('trainings').snapshots().map(
+          (snap) => snap.docs
+              .map(
+                (doc) => Training.fromEntity(TrainingEntity.fromSnapshot(doc)),
+              )
+              .toList(),
+        );
   }
+
+  // Future<List<Study>> getAllStudy(String teamId) async {
+  //   final team = teamsCollection.doc(teamId);
+  //   final study = await team.collection('study').get();
+  //   return study.docs
+  //       .map((snap) => Study.fromEntity(StudyEntity.fromSnapshot(snap)))
+  //       .toList();
+  // }
+
+  // Future<List<Training>> getAllTrainings(String teamId) async {
+  //   final team = teamsCollection.doc(teamId);
+  //   final trainings = await team.collection('trainings').get();
+  //   return trainings.docs
+  //       .map((snap) => Training.fromEntity(TrainingEntity.fromSnapshot(snap)))
+  //       .toList();
+  // }
 }

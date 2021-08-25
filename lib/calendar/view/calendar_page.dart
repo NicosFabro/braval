@@ -1,3 +1,4 @@
+import 'package:braval/calendar/events/events_bloc.dart';
 import 'package:braval/profile/bloc/profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,14 +37,14 @@ class CalendarView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final teamId = context.read<ProfileBloc>().state.profile.currentTeam;
-    context.read<MeetingBloc>().add(MeetingsFetchRequested(teamId));
+    context.read<EventsBloc>().add(EventsFetchRequested(teamId));
     return SingleChildScrollView(
       child: Column(
         children: [
-          BlocBuilder<MeetingBloc, MeetingState>(
+          BlocBuilder<EventsBloc, EventsState>(
             builder: (context, state) {
               return BravalTableCalendar(
-                events: state.meetings,
+                events: state.events,
               );
             },
           ),

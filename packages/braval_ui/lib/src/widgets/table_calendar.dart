@@ -31,20 +31,17 @@ class _BravalTableCalendarState extends State<BravalTableCalendar> {
     }
   }
 
-  Event _getFirstEventFromDate(DateTime date) {
-    return widget.events!.firstWhere((event) => event.date!.isSameDate(date));
-  }
-
   @override
   Widget build(BuildContext context) {
     return TableCalendar<Event>(
       calendarBuilders: CalendarBuilders<Event>(
-        singleMarkerBuilder: (context, date, list) {
+        singleMarkerBuilder: (context, date, event) {
           return Container(
             width: 8,
             height: 8,
+            margin: const EdgeInsets.symmetric(horizontal: 1),
             decoration: BoxDecoration(
-              color: _getEventColor(_getFirstEventFromDate(date)),
+              color: _getEventColor(event),
               shape: BoxShape.circle,
             ),
           );

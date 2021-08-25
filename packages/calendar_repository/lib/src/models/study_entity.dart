@@ -19,7 +19,7 @@ class StudyEntity extends Equatable {
 
   static StudyEntity fromSnapshot(DocumentSnapshot snap) => StudyEntity(
         snap.get('id') as String,
-        snap.get('date') as DateTime,
+        (snap.get('date') as Timestamp).toDate(),
       );
 
   Map<String, dynamic> toDocument() => <String, dynamic>{

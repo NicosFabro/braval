@@ -19,7 +19,7 @@ class TrainingEntity extends Equatable {
 
   static TrainingEntity fromSnapshot(DocumentSnapshot snap) => TrainingEntity(
         snap.get('id') as String,
-        snap.get('date') as DateTime,
+        (snap.get('date') as Timestamp).toDate(),
       );
 
   Map<String, dynamic> toDocument() => <String, dynamic>{

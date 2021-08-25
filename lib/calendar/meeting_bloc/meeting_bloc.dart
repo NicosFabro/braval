@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:calendar_repository/calendar_repository.dart';
 import 'package:equatable/equatable.dart';
+
+import 'package:calendar_repository/calendar_repository.dart';
 
 part 'meeting_event.dart';
 part 'meeting_state.dart';

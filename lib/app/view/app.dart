@@ -5,7 +5,7 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import 'package:braval/calendar/meeting_bloc/meeting_bloc.dart';
+import 'package:braval/calendar/events/events_bloc.dart';
 import 'package:braval/profile/bloc/profile_bloc.dart';
 import 'package:calendar_repository/calendar_repository.dart';
 import 'package:flutter/material.dart';
@@ -69,8 +69,8 @@ class App extends StatelessWidget {
               profileRepository: _profileRepository,
             ),
           ),
-          BlocProvider<MeetingBloc>(
-            create: (context) => MeetingBloc(
+          BlocProvider<EventsBloc>(
+            create: (context) => EventsBloc(
               calendarRepository: _calendarRepository,
             ),
           ),
