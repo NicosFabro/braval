@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:braval_ui/braval_ui.dart';
 
 // Bloc
-import 'package:braval/calendar/events/events_bloc.dart';
+import 'package:braval/calendar/events_bloc/events_bloc.dart';
 
 class CalendarPage extends StatelessWidget {
   const CalendarPage({Key? key}) : super(key: key);

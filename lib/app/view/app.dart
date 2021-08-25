@@ -5,9 +5,6 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import 'package:braval/calendar/events/events_bloc.dart';
-import 'package:braval/profile/bloc/profile_bloc.dart';
-import 'package:calendar_repository/calendar_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -16,6 +13,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:profile_repository/profile_repository.dart';
 import 'package:team_repository/team_repository.dart';
+import 'package:calendar_repository/calendar_repository.dart';
 import 'package:braval_ui/braval_ui.dart';
 
 // App
@@ -26,6 +24,10 @@ import 'package:braval/splash_screen/splash_screen.dart';
 
 // Login
 import 'package:braval/login/login.dart';
+
+// BloC
+import 'package:braval/calendar/events_bloc/events_bloc.dart';
+import 'package:braval/profile/bloc/profile_bloc.dart';
 
 // l10n
 import 'package:braval/l10n/l10n.dart';
