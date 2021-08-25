@@ -5,13 +5,8 @@ import 'package:braval/calendar/calendar.dart';
 import 'package:braval/profile/profile.dart';
 import 'package:braval/team/team.dart';
 
-// Packages
-import 'package:braval_ui/braval_ui.dart';
-
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
-
-  // static Page page() => const MaterialPage<void>(child: HomePage());
 
   static Route<HomePage> route() =>
       MaterialPageRoute<HomePage>(builder: (_) => const HomePage());

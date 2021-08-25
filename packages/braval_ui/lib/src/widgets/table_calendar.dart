@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:calendar_repository/calendar_repository.dart';
 
 import 'package:braval_ui/braval_ui.dart';
 
 class BravalTableCalendar extends StatefulWidget {
-  const BravalTableCalendar({Key? key}) : super(key: key);
+  const BravalTableCalendar({
+    Key? key,
+    required this.events,
+  }) : super(key: key);
+
+  final List<Event>? events;
 
   @override
   _BravalTableCalendarState createState() => _BravalTableCalendarState();
@@ -13,14 +19,43 @@ class BravalTableCalendar extends StatefulWidget {
 class _BravalTableCalendarState extends State<BravalTableCalendar> {
   DateTime dateSelected = DateTime.now();
 
-  @override
-  void initState() {
-    super.initState();
+  Color _getEventColor(Event? event) {
+    if (event is Study || event is Meeting) {
+      return BravalColors.study;
+    } else if (event is Training) {
+      return BravalColors.training;
+    } else if (event is Match) {
+      return BravalColors.match;
+    } else {
+      return BravalColors.silver;
+    }
+  }
+
+  Event? _getFirstEventFromDate(DateTime date) {
+    return widget.events!.firstWhere((event) => event.date!.isSameDate(date));
   }
 
   @override
   Widget build(BuildContext context) {
-    return TableCalendar<dynamic>(
+    return TableCalendar<Event>(
+      calendarBuilders: CalendarBuilders<Event>(
+        singleMarkerBuilder: (context, date, list) {
+          return Container(
+            width: 8,
+            height: 8,
+            decoration: BoxDecoration(
+              color: _getEventColor(_getFirstEventFromDate(date)),
+              shape: BoxShape.circle,
+            ),
+          );
+        },
+      ),
+      eventLoader: (date) {
+        if (widget.events == null) return <Event>[];
+        return widget.events!
+            .where((event) => event.date!.isSameDate(date))
+            .toList();
+      },
       locale: 'es_ES',
       focusedDay: dateSelected,
       firstDay: DateTime.utc(2021, 8),
@@ -72,5 +107,11 @@ class _BravalTableCalendarState extends State<BravalTableCalendar> {
     setState(() {
       dateSelected = date;
     });
+  }
+}
+
+extension DateTimeComparison on DateTime {
+  bool isSameDate(DateTime date) {
+    return year == date.year && month == date.month && day == date.day;
   }
 }

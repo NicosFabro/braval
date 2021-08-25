@@ -71,6 +71,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0+1"
+  calendar_repository:
+    dependency: "direct main"
+    description:
+      path: "packages/calendar_repository"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   characters:
     dependency: transitive
     description:
@@ -211,13 +218,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
-  flow_builder:
-    dependency: "direct main"
-    description:
-      name: flow_builder
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.4"
   flutter:
     dependency: "direct main"
     description: flutter

@@ -5,6 +5,9 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+import 'package:braval/calendar/meeting_bloc/meeting_bloc.dart';
+import 'package:braval/profile/bloc/profile_bloc.dart';
+import 'package:calendar_repository/calendar_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -33,14 +36,17 @@ class App extends StatelessWidget {
     required AuthenticationRepository authenticationRepository,
     required ProfileRepository profileRepository,
     required TeamRepository teamRepository,
+    required CalendarRepository calendarRepository,
   })  : _authenticationRepository = authenticationRepository,
         _profileRepository = profileRepository,
         _teamRepository = teamRepository,
+        _calendarRepository = calendarRepository,
         super(key: key);
 
   final AuthenticationRepository _authenticationRepository;
   final ProfileRepository _profileRepository;
   final TeamRepository _teamRepository;
+  final CalendarRepository _calendarRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -49,12 +55,26 @@ class App extends StatelessWidget {
         RepositoryProvider.value(value: _authenticationRepository),
         RepositoryProvider.value(value: _profileRepository),
         RepositoryProvider.value(value: _teamRepository),
+        RepositoryProvider.value(value: _calendarRepository),
       ],
-      child: BlocProvider<AppBloc>(
-        create: (_) => AppBloc(
-          authenticationRepository: _authenticationRepository,
-          profileRepository: _profileRepository,
-        ),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<AppBloc>(
+            create: (_) => AppBloc(
+              authenticationRepository: _authenticationRepository,
+            ),
+          ),
+          BlocProvider<ProfileBloc>(
+            create: (_) => ProfileBloc(
+              profileRepository: _profileRepository,
+            ),
+          ),
+          BlocProvider<MeetingBloc>(
+            create: (context) => MeetingBloc(
+              calendarRepository: _calendarRepository,
+            ),
+          ),
+        ],
         child: const AppView(),
       ),
     );

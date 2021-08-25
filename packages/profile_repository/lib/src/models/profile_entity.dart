@@ -53,15 +53,15 @@ class ProfileEntity extends Equatable {
       );
 
   static ProfileEntity fromSnapshot(DocumentSnapshot snap) => ProfileEntity(
-        snap.get('id'),
-        snap.get('name'),
-        snap.get('surname'),
-        snap.get('email'),
-        snap.get('birthday'),
-        snap.get('dateCreated'),
-        snap.get('currentTeam'),
+        snap.get('id') as String,
+        snap.get('name') as String,
+        snap.get('surname') as String,
+        snap.get('email') as String,
+        (snap.get('birthday') as Timestamp).toDate(),
+        (snap.get('dateCreated') as Timestamp).toDate(),
+        snap.get('currentTeam') as String,
         (snap.get('teamHistory') as List<dynamic>).cast<String>(),
-        snap.get('avatarURL'),
+        snap.get('avatarURL') as String,
         (snap.get('achievements') as List<dynamic>).cast<String>(),
       );
 
@@ -70,7 +70,7 @@ class ProfileEntity extends Equatable {
         'name': name,
         'surname': surname,
         'email': email,
-        'birthday': birthday,
+        'birthday': birthday ?? DateTime.utc(1970),
         'dateCreated': dateCreated,
         'currentTeam': currentTeam,
         'teamHistory': teamHistory,
