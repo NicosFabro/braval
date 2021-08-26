@@ -5,8 +5,6 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import 'package:braval_ui/braval_ui.dart';
-import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -15,9 +13,21 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:profile_repository/profile_repository.dart';
 import 'package:team_repository/team_repository.dart';
+import 'package:calendar_repository/calendar_repository.dart';
+import 'package:braval_ui/braval_ui.dart';
 
 // App
 import 'package:braval/app/app.dart';
+
+// SplashScreen
+import 'package:braval/splash_screen/splash_screen.dart';
+
+// Login
+import 'package:braval/login/login.dart';
+
+// BloC
+import 'package:braval/calendar/events_bloc/events_bloc.dart';
+import 'package:braval/profile/bloc/profile_bloc.dart';
 
 // l10n
 import 'package:braval/l10n/l10n.dart';
@@ -28,14 +38,17 @@ class App extends StatelessWidget {
     required AuthenticationRepository authenticationRepository,
     required ProfileRepository profileRepository,
     required TeamRepository teamRepository,
+    required CalendarRepository calendarRepository,
   })  : _authenticationRepository = authenticationRepository,
         _profileRepository = profileRepository,
         _teamRepository = teamRepository,
+        _calendarRepository = calendarRepository,
         super(key: key);
 
   final AuthenticationRepository _authenticationRepository;
   final ProfileRepository _profileRepository;
   final TeamRepository _teamRepository;
+  final CalendarRepository _calendarRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +57,26 @@ class App extends StatelessWidget {
         RepositoryProvider.value(value: _authenticationRepository),
         RepositoryProvider.value(value: _profileRepository),
         RepositoryProvider.value(value: _teamRepository),
+        RepositoryProvider.value(value: _calendarRepository),
       ],
-      child: BlocProvider<AppBloc>(
-        create: (_) => AppBloc(
-          authenticationRepository: _authenticationRepository,
-        ),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<AppBloc>(
+            create: (_) => AppBloc(
+              authenticationRepository: _authenticationRepository,
+            ),
+          ),
+          BlocProvider<ProfileBloc>(
+            create: (_) => ProfileBloc(
+              profileRepository: _profileRepository,
+            ),
+          ),
+          BlocProvider<EventsBloc>(
+            create: (context) => EventsBloc(
+              calendarRepository: _calendarRepository,
+            ),
+          ),
+        ],
         child: const AppView(),
       ),
     );
@@ -68,11 +96,10 @@ class AppView extends StatelessWidget {
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
       ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: FlowBuilder<AppStatus>(
-        state: context.select((AppBloc appBloc) => appBloc.state.status),
-        onGeneratePages: onGenerateAppViewPages,
-      ),
+      supportedLocales: const [Locale('es')],
+      home: context.read<AppBloc>().state.status == AppStatus.authenticated
+          ? const SplashScreen()
+          : const LoginPage(),
     );
   }
 }

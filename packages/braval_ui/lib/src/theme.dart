@@ -7,15 +7,22 @@ class BravalTheme {
   /// Standard `ThemeData` for Braval UI
   static ThemeData get standard {
     return ThemeData(
-      colorScheme: ColorScheme.fromSwatch(accentColor: BravalColors.oceanGreen),
+      colorScheme: const ColorScheme.dark(
+        primary: BravalColors.oceanGreen,
+        onPrimary: BravalColors.white,
+        surface: BravalColors.shark,
+        secondary: BravalColors.oceanGreen,
+        background: BravalColors.tuna,
+      ),
       appBarTheme: _appBarTheme,
       elevatedButtonTheme: _elevatedButtonTheme,
       outlinedButtonTheme: _outlinedButtonTheme,
       textTheme: _textTheme,
-      dialogBackgroundColor: BravalColors.whiteBackground,
+      dialogBackgroundColor: BravalColors.tuna,
       dialogTheme: _dialogTheme,
       tooltipTheme: _tooltipTheme,
       tabBarTheme: _tabBarTheme,
+      bottomNavigationBarTheme: _bottomNavigationBarTheme,
       dividerTheme: _dividerTheme,
       scaffoldBackgroundColor: BravalColors.tuna,
     );
@@ -94,14 +101,28 @@ class BravalTheme {
   static TabBarTheme get _tabBarTheme {
     return const TabBarTheme(
       indicator: UnderlineTabIndicator(
-        borderSide: BorderSide(
-          width: 2.0,
-          color: BravalColors.oceanGreen,
-        ),
+        borderSide: BorderSide(width: 2, color: BravalColors.oceanGreen),
       ),
       labelColor: BravalColors.oceanGreen,
       unselectedLabelColor: BravalColors.white,
       indicatorSize: TabBarIndicatorSize.tab,
+    );
+  }
+
+  static BottomNavigationBarThemeData get _bottomNavigationBarTheme {
+    return BottomNavigationBarThemeData(
+      backgroundColor: BravalColors.shark,
+      selectedItemColor: BravalColors.oceanGreen,
+      unselectedItemColor: BravalColors.silver,
+      selectedLabelStyle: BravalTextStyle.bodyText2.copyWith(
+        color: BravalColors.oceanGreen,
+      ),
+      unselectedLabelStyle: BravalTextStyle.bodyText2.copyWith(
+        color: BravalColors.silver,
+      ),
+      type: BottomNavigationBarType.fixed,
+      showSelectedLabels: true,
+      showUnselectedLabels: true,
     );
   }
 

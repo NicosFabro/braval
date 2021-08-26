@@ -8,8 +8,11 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
+  calendar_repository:
+    path: ../calendar_repository
   flutter:
     sdk: flutter
+  table_calendar: ^3.0.2
   very_good_analysis: ^2.1.0
 
 dev_dependencies:

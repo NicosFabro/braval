@@ -5,8 +5,6 @@ import 'package:equatable/equatable.dart';
 
 // Packages
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:profile_repository/profile_repository.dart';
-import 'package:team_repository/team_repository.dart';
 import 'package:very_good_analysis/very_good_analysis.dart';
 
 // Bloc
@@ -48,9 +46,15 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     }
   }
 
-  AppState _mapUserChangedToState(AppUserChanged event, AppState state) {
-    return event.user.isNotEmpty
-        ? AppState.authenticated(event.user)
-        : const AppState.unauthenticated();
+  AppState _mapUserChangedToState(
+    AppUserChanged event,
+    AppState state,
+  ) {
+    if (event.user.isNotEmpty) {
+      // final profile = await _profileRepository.getProfileById(event.user.id);
+      return AppState.authenticated(event.user);
+    } else {
+      return const AppState.unauthenticated();
+    }
   }
 }

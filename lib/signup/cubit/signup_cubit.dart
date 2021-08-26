@@ -155,7 +155,7 @@ class SignUpCubit extends Cubit<SignUpState> {
         currentTeam: teamId,
         teamHistory: [teamId],
         avatarURL: '',
-        achievements: [],
+        achievements: const [],
       );
       await _profileRepository.createProfile(profile);
       await _teamRepository.addVolunteer(
