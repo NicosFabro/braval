@@ -6,6 +6,7 @@ class Training extends Event {
     required DateTime? date,
   }) : super(id: id, date: date);
 
+  @override
   Training copyWith({String? id, DateTime? date}) {
     return Training(id: id ?? this.id, date: date ?? this.date);
   }

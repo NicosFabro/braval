@@ -17,4 +17,8 @@ class Event extends Equatable {
 
   @override
   List<Object?> get props => [id, date];
+
+  Event copyWith({String? id, DateTime? date}) {
+    return Event(id: id ?? this.id, date: date ?? this.date);
+  }
 }

@@ -6,6 +6,7 @@ class Meeting extends Event {
     required DateTime? date,
   }) : super(id: id, date: date);
 
+  @override
   Meeting copyWith({String? id, DateTime? date}) {
     return Meeting(id: id ?? this.id, date: date ?? this.date);
   }

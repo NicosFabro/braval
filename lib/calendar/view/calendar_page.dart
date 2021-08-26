@@ -103,6 +103,7 @@ class _SpeedDial extends StatelessWidget {
           labelStyle: BravalTextStyle.caption.copyWith(
             color: BravalColors.black,
           ),
+          labelBackgroundColor: BravalColors.white,
           backgroundColor: BravalColors.match,
           child: const Icon(
             Icons.emoji_events,
@@ -114,6 +115,7 @@ class _SpeedDial extends StatelessWidget {
           labelStyle: BravalTextStyle.caption.copyWith(
             color: BravalColors.black,
           ),
+          labelBackgroundColor: BravalColors.white,
           backgroundColor: BravalColors.training,
           onTap: () => Navigator.of(context).push(
             CreateEditEventPage.route(type: EventType.training, date: date),
@@ -128,6 +130,7 @@ class _SpeedDial extends StatelessWidget {
           labelStyle: BravalTextStyle.caption.copyWith(
             color: BravalColors.black,
           ),
+          labelBackgroundColor: BravalColors.white,
           backgroundColor: BravalColors.study,
           onTap: () => Navigator.of(context).push(
             CreateEditEventPage.route(type: EventType.study, date: date),
@@ -142,6 +145,7 @@ class _SpeedDial extends StatelessWidget {
           labelStyle: BravalTextStyle.caption.copyWith(
             color: BravalColors.black,
           ),
+          labelBackgroundColor: BravalColors.white,
           backgroundColor: BravalColors.study,
           onTap: () => Navigator.of(context).push(
             CreateEditEventPage.route(type: EventType.meeting, date: date),

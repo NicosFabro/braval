@@ -96,7 +96,7 @@ class AppView extends StatelessWidget {
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
       ],
-      supportedLocales: AppLocalizations.supportedLocales,
+      supportedLocales: const [Locale('es')],
       home: context.read<AppBloc>().state.status == AppStatus.authenticated
           ? const SplashScreen()
           : const LoginPage(),

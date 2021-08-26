@@ -38,4 +38,40 @@ class CalendarRepository {
               .toList(),
         );
   }
+
+  Future<void> postMeeting({
+    required String teamId,
+    required List<Meeting> meetings,
+  }) async {
+    final collection = teamsCollection.doc(teamId).collection('meetings');
+    for (var meeting in meetings) {
+      final doc = collection.doc();
+      meeting = meeting.copyWith(id: doc.id);
+      await doc.set(meeting.toEntity().toDocument());
+    }
+  }
+
+  Future<void> postStudy({
+    required String teamId,
+    required List<Study> studyList,
+  }) async {
+    final collection = teamsCollection.doc(teamId).collection('study');
+    for (var study in studyList) {
+      final doc = collection.doc();
+      study = study.copyWith(id: doc.id);
+      await doc.set(study.toEntity().toDocument());
+    }
+  }
+
+  Future<void> postTraining({
+    required String teamId,
+    required List<Training> trainings,
+  }) async {
+    final collection = teamsCollection.doc(teamId).collection('trainings');
+    for (var training in trainings) {
+      final doc = collection.doc();
+      training = training.copyWith(id: doc.id);
+      await doc.set(training.toEntity().toDocument());
+    }
+  }
 }

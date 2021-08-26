@@ -15,6 +15,7 @@ class Match extends Event {
   final bool isLocal;
   final List<String> lineup;
 
+  @override
   Match copyWith({
     String? id,
     DateTime? date,
