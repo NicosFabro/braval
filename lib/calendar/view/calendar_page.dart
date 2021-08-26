@@ -1,9 +1,12 @@
-import 'package:braval/events/events.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 // Packages
 import 'package:braval_ui/braval_ui.dart';
+
+// Events
+import 'package:braval/events/events.dart';
 
 // Bloc
 import 'package:braval/calendar/events_bloc/events_bloc.dart';
@@ -18,6 +21,59 @@ class CalendarPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: false,
         title: const Text('Calendario'),
+      ),
+      floatingActionButton: SpeedDial(
+        icon: Icons.add,
+        activeIcon: Icons.close,
+        overlayColor: BravalColors.shark,
+        overlayOpacity: 0.5,
+        foregroundColor: BravalColors.black,
+        children: [
+          SpeedDialChild(
+            label: 'Crear partido',
+            labelStyle: BravalTextStyle.caption.copyWith(
+              color: BravalColors.black,
+            ),
+            backgroundColor: BravalColors.match,
+            child: const Icon(
+              Icons.emoji_events,
+              color: BravalColors.black,
+            ),
+          ),
+          SpeedDialChild(
+            label: 'Crear entreno',
+            labelStyle: BravalTextStyle.caption.copyWith(
+              color: BravalColors.black,
+            ),
+            backgroundColor: BravalColors.training,
+            child: const Icon(
+              Icons.fitness_center,
+              color: BravalColors.black,
+            ),
+          ),
+          SpeedDialChild(
+            label: 'Crear estudio',
+            labelStyle: BravalTextStyle.caption.copyWith(
+              color: BravalColors.black,
+            ),
+            backgroundColor: BravalColors.study,
+            child: const Icon(
+              Icons.menu_book,
+              color: BravalColors.black,
+            ),
+          ),
+          SpeedDialChild(
+            label: 'Crear reunión',
+            labelStyle: BravalTextStyle.caption.copyWith(
+              color: BravalColors.black,
+            ),
+            backgroundColor: BravalColors.study,
+            child: const Icon(
+              Icons.groups,
+              color: BravalColors.black,
+            ),
+          ),
+        ],
       ),
       body: const SafeArea(
         child: CalendarView(),

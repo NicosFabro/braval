@@ -21,6 +21,7 @@ dependencies:
   flutter_bloc: ^7.0.0
   flutter_localizations:
     sdk: flutter
+  flutter_speed_dial: ^4.2.0
   form_inputs:
     path: packages/form_inputs
   formz: ^0.4.0
