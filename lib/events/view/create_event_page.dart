@@ -1,3 +1,4 @@
+import 'package:braval/calendar/events_bloc/events_bloc.dart';
 import 'package:braval/profile/bloc/profile_bloc.dart';
 import 'package:calendar_repository/calendar_repository.dart';
 import 'package:flutter/material.dart';
@@ -80,6 +81,12 @@ class _CreateEditEventPageState extends State<CreateEditEventPage> {
     );
   }
 
+  Future<void> _onSave() async {
+    final teamId = context.read<ProfileBloc>().state.profile.currentTeam;
+    final event = context.read<EventCubit>();
+    await event.saveEvent(teamId);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -96,7 +103,15 @@ class _CreateEditEventPageState extends State<CreateEditEventPage> {
       appBar: AppBar(title: Text(_getTitle())),
       body: Padding(
         padding: const EdgeInsets.only(top: 38, left: 16, right: 16),
-        child: BlocBuilder<EventCubit, EventState>(
+        child: BlocConsumer<EventCubit, EventState>(
+          listener: (context, state) {
+            if (state.status == EventStatus.success) {
+              final teamId =
+                  context.read<ProfileBloc>().state.profile.currentTeam;
+              context.read<EventsBloc>().add(EventsFetchRequested(teamId));
+              Navigator.pop(context);
+            }
+          },
           builder: (context, state) {
             final event = context.read<EventCubit>();
             return Column(
@@ -210,9 +225,7 @@ class _CreateEditEventPageState extends State<CreateEditEventPage> {
                     child: SizedBox(
                       width: 300,
                       child: ElevatedButton(
-                        onPressed: () => event.saveEvent(
-                          context.read<ProfileBloc>().state.profile.currentTeam,
-                        ),
+                        onPressed: _onSave,
                         child: event.state.status == EventStatus.saving
                             ? const CircularProgressIndicator()
                             : const Text('GUARDAR'),
