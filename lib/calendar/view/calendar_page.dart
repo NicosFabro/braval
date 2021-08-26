@@ -1,3 +1,4 @@
+import 'package:braval/events/events.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -73,7 +74,9 @@ class _CalendarViewState extends State<CalendarView> {
               itemCount: events.length,
               itemBuilder: (context, i) => EventTile(
                 event: events[i],
-                onTap: () => print(events[i]),
+                onTap: () => Navigator.of(context).push(
+                  EventPage.route(event: events[i]),
+                ),
               ),
             ),
           ],
