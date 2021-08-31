@@ -47,36 +47,34 @@ class _CalendarPageState extends State<CalendarPage> {
       floatingActionButton: _SpeedDial(date: dateSelected),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
-            child: Column(
-              children: [
-                BlocBuilder<EventsBloc, EventsState>(
-                  builder: (context, state) {
-                    return BravalTableCalendar(
-                      events: state.events,
-                      onDateSelected: (date) {
-                        setState(() => dateSelected = date);
-                      },
-                    );
-                  },
-                ),
-                BravalSpaces.elementsSeparator,
-                const Divider(),
-                BravalSpaces.elementsSeparator,
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: events.length,
-                  itemBuilder: (context, i) => EventTile(
-                    event: events[i],
-                    onTap: () => Navigator.of(context).push(
-                      EventPage.route(event: events[i]),
-                    ),
+          padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+          child: Column(
+            children: [
+              BlocBuilder<EventsBloc, EventsState>(
+                builder: (context, state) {
+                  return BravalTableCalendar(
+                    events: state.events,
+                    onDateSelected: (date) {
+                      setState(() => dateSelected = date);
+                    },
+                  );
+                },
+              ),
+              BravalSpaces.elementsSeparator,
+              const Divider(),
+              BravalSpaces.elementsSeparator,
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: events.length,
+                itemBuilder: (context, i) => EventTile(
+                  event: events[i],
+                  onTap: () => Navigator.of(context).push(
+                    EventPage.route(event: events[i]),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

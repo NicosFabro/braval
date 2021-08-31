@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:braval/app/app.dart';
 import 'package:braval/home/home.dart';
 import 'package:braval/profile/bloc/profile_bloc.dart';
+import 'package:braval/team/team.dart';
 import 'package:braval_ui/braval_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +20,9 @@ class SplashScreen extends StatelessWidget {
         child: BlocListener<ProfileBloc, ProfileState>(
           listener: (context, state) {
             if (state.status == ProfileStatus.success) {
+              context
+                  .read<TeamBloc>()
+                  .add(TeamFetchRequested(state.profile.currentTeam));
               Navigator.of(context).pushReplacement(HomePage.route());
             } else if (state.status == ProfileStatus.failure) {
               log('failure');

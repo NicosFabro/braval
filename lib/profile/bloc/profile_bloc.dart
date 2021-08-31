@@ -17,6 +17,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
     if (event is ProfileFetchRequested) {
       yield* _mapProfileFetchRequestedToState(event);
+    } else if (event is TeamPlayersProfilesFetchRequested) {
+      yield* _mapProfilesFetchRequestedToState(event);
     }
   }
 
@@ -26,9 +28,25 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     yield state.copyWith(status: ProfileStatus.loading);
     try {
       final profile = await profileRepository.getProfileById(event.userId);
-      log(profile.props.toString());
       yield state.copyWith(profile: profile, status: ProfileStatus.success);
     } catch (_) {
+      yield state.copyWith(status: ProfileStatus.failure);
+    }
+  }
+
+  Stream<ProfileState> _mapProfilesFetchRequestedToState(
+    TeamPlayersProfilesFetchRequested event,
+  ) async* {
+    yield state.copyWith(status: ProfileStatus.loading);
+    try {
+      final profiles =
+          await profileRepository.getProfilesByListOfIds(event.playerIds);
+      yield state.copyWith(
+        teamPlayersProfiles: profiles,
+        status: ProfileStatus.success,
+      );
+    } on Exception catch (e) {
+      log(e.toString());
       yield state.copyWith(status: ProfileStatus.failure);
     }
   }

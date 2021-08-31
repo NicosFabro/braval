@@ -1,3 +1,4 @@
+import 'package:braval/team/team.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,20 +13,32 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final name = context.read<ProfileBloc>().state.profile.name;
-    final surname = context.read<ProfileBloc>().state.profile.surname;
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('$name $surname'),
-            Text('Fútbol infantil', style: BravalTextStyle.overline),
+            BlocBuilder<ProfileBloc, ProfileState>(
+              builder: (context, state) {
+                return Text('${state.profile.name} ${state.profile.surname}');
+              },
+            ),
+            BlocBuilder<TeamBloc, TeamState>(
+              builder: (context, state) {
+                final sport =
+                    state.team.sport == 'football' ? 'Fútbol' : 'Basket';
+                final category = state.team.category.toLowerCase();
+                return Text(
+                  '$sport $category',
+                  style: BravalTextStyle.overline,
+                );
+              },
+            ),
           ],
         ),
-        actions: const [
-          Icon(Icons.notifications),
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.notifications)),
         ],
       ),
     );
