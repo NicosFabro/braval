@@ -3,17 +3,31 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:team_repository/team_repository.dart';
 
 class TeamRepository {
-  final teamsRepository = FirebaseFirestore.instance.collection('teams');
+  final teamsCollection = FirebaseFirestore.instance.collection('teams');
 
   Future<List<Team>> getAllTeams() async {
-    final query = await teamsRepository.get();
+    final query = await teamsCollection.get();
     return query.docs
         .map((snap) => Team.fromEntity(TeamEntity.fromSnapshot(snap)))
         .toList();
   }
 
+  Future<Team> getTeamById(String teamId) async {
+    final teamSnap = await teamsCollection.doc(teamId).get();
+    final teamPlayersSnap =
+        await teamsCollection.doc(teamId).collection('players').get();
+    final teamPlayers = teamPlayersSnap.docs
+        .map(
+          (snap) => TeamPlayer.fromEntity(TeamPlayerEntity.fromSnapshot(snap)),
+        )
+        .toList();
+
+    return Team.fromEntity(TeamEntity.fromSnapshot(teamSnap))
+        .copyWith(players: teamPlayers);
+  }
+
   Future<Team> getAllTeamsBySport(String sport) async {
-    final query = await teamsRepository.where('sport', isEqualTo: sport).get();
+    final query = await teamsCollection.where('sport', isEqualTo: sport).get();
     if (query.docs.isEmpty) {
       return Team.empty;
     } else {
@@ -26,7 +40,7 @@ class TeamRepository {
     String volunteerId,
     String role,
   ) async {
-    final volunteers = teamsRepository.doc(teamId).collection('volunteers');
+    final volunteers = teamsCollection.doc(teamId).collection('volunteers');
     final ref = volunteers.doc(volunteerId);
     await ref.set(<String, dynamic>{'role': role, 'id': volunteerId});
   }

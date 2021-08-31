@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:team_repository/src/models/models.dart';
 
 class TeamEntity extends Equatable {
   const TeamEntity(
