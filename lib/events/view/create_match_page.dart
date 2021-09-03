@@ -1,3 +1,4 @@
+import 'package:braval/calendar/events_bloc/events_bloc.dart';
 import 'package:braval/profile/bloc/profile_bloc.dart';
 import 'package:braval/team/team.dart';
 import 'package:calendar_repository/calendar_repository.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:braval/events/match_cubit/match_cubit.dart';
 import 'package:braval_ui/braval_ui.dart';
 import 'package:form_inputs/form_inputs.dart';
+import 'package:formz/formz.dart';
 import 'package:intl/intl.dart';
 
 class CreateEditMatchPage extends StatefulWidget {
@@ -53,6 +55,11 @@ class _CreateEditMatchPageState extends State<CreateEditMatchPage> {
     );
   }
 
+  Future<void> _onSave() async {
+    final teamId = context.read<ProfileBloc>().state.profile.currentTeam;
+    await context.read<MatchCubit>().saveMatch(teamId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,11 +68,17 @@ class _CreateEditMatchPageState extends State<CreateEditMatchPage> {
         padding: const EdgeInsets.all(BravalSpaces.horizontal),
         child: BlocConsumer<MatchCubit, MatchState>(
           listener: (context, state) {
-            // TODO: implement listener
+            if (state.status == FormzStatus.submissionSuccess) {
+              final teamId =
+                  context.read<ProfileBloc>().state.profile.currentTeam;
+              context.read<EventsBloc>().add(EventsFetchRequested(teamId));
+              Navigator.pop(context);
+            }
           },
           builder: (context, state) {
             final cubit = context.read<MatchCubit>();
             return Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 BravalTextInput(
@@ -167,6 +180,21 @@ class _CreateEditMatchPageState extends State<CreateEditMatchPage> {
                       },
                     );
                   },
+                ),
+                BravalSpaces.elementsSeparator,
+                Flexible(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: SizedBox(
+                      width: 300,
+                      child: ElevatedButton(
+                        onPressed: _onSave,
+                        child: state.status == FormzStatus.submissionInProgress
+                            ? const CircularProgressIndicator()
+                            : const Text('GUARDAR'),
+                      ),
+                    ),
+                  ),
                 ),
               ],
             );

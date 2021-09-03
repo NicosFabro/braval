@@ -20,7 +20,7 @@ class EventTile extends StatelessWidget {
       case Study:
         return const Icon(Icons.menu_book, color: BravalColors.study);
       case Match:
-        return const Icon(Icons.emoji_events, color: BravalColors.study);
+        return const Icon(Icons.emoji_events, color: BravalColors.match);
       case Training:
         return const Icon(Icons.fitness_center, color: BravalColors.training);
       default:

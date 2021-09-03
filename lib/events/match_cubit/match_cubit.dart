@@ -28,11 +28,16 @@ class MatchCubit extends Cubit<MatchState> {
   final CalendarRepository _calendarRepository;
 
   Future<void> saveMatch(String teamId) async {
+    if (!state.status.isValidated) return;
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
+      final date = state.date.add(Duration(
+        hours: state.hour.hour,
+        minutes: state.hour.minute,
+      ));
       final match = Match(
         id: '',
-        date: state.date,
+        date: date,
         rival: state.rival.value,
         address: state.address.value,
         isLocal: state.isLocal,
@@ -40,7 +45,7 @@ class MatchCubit extends Cubit<MatchState> {
       );
       await _calendarRepository.postMatch(teamId: teamId, match: match);
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
-    } catch (_) {
+    } on Exception {
       emit(state.copyWith(status: FormzStatus.submissionFailure));
     }
   }
