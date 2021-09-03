@@ -1,3 +1,5 @@
+import 'package:braval/profile/bloc/profile_bloc.dart';
+import 'package:braval/team/team.dart';
 import 'package:calendar_repository/calendar_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -130,6 +132,41 @@ class _CreateEditMatchPageState extends State<CreateEditMatchPage> {
                     padding: const EdgeInsets.all(10),
                     child: Text(state.hour.format(context)),
                   ),
+                ),
+                BravalSpaces.elementsSeparator,
+                Text('Convocatoria', style: BravalTextStyle.headline6),
+                GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 200,
+                    childAspectRatio: 1.5,
+                    crossAxisSpacing: 10,
+                  ),
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: context
+                      .read<ProfileBloc>()
+                      .state
+                      .teamPlayersProfiles
+                      .length,
+                  itemBuilder: (context, i) {
+                    final profile = context
+                        .read<ProfileBloc>()
+                        .state
+                        .teamPlayersProfiles[i];
+                    return PlayerAvatar(
+                      profile: profile,
+                      isSelected: state.lineup.contains(profile.id),
+                      onTap: () {
+                        setState(() {
+                          if (state.lineup.contains(profile.id)) {
+                            state.lineup.remove(profile.id);
+                          } else {
+                            state.lineup.add(profile.id);
+                          }
+                        });
+                      },
+                    );
+                  },
                 ),
               ],
             );
