@@ -1,3 +1,4 @@
+import 'package:braval/splash_screen/splash_screen.dart';
 import 'package:braval_ui/braval_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -51,6 +52,8 @@ class LoginView extends StatelessWidget {
                 descriptionStyle: Theme.of(context).textTheme.subtitle2!,
               ),
             );
+        } else if (state.status.isSubmissionSuccess) {
+          Navigator.of(context).pushReplacement(SplashScreen.route());
         }
       },
       child: Center(

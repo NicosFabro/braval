@@ -1,6 +1,5 @@
 import 'package:braval/calendar/events_bloc/events_bloc.dart';
 import 'package:braval/profile/bloc/profile_bloc.dart';
-import 'package:braval/team/team.dart';
 import 'package:calendar_repository/calendar_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
