@@ -25,10 +25,6 @@ class TeamPage extends StatelessWidget {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add, color: BravalColors.black),
-      ),
       body: const TeamView(),
     );
   }
