@@ -1,4 +1,5 @@
 import 'package:braval/events/view/create_event_page.dart';
+import 'package:braval/events/view/create_match_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -103,6 +104,9 @@ class _SpeedDial extends StatelessWidget {
           ),
           labelBackgroundColor: BravalColors.white,
           backgroundColor: BravalColors.match,
+          onTap: () => Navigator.of(context).push(
+            CreateEditMatchPage.route(date: date),
+          ),
           child: const Icon(
             Icons.emoji_events,
             color: BravalColors.black,

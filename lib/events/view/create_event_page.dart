@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 
 import 'package:braval_ui/braval_ui.dart';
 
-import 'package:braval/events/event/event_cubit.dart';
+import 'package:braval/events/event_cubit/event_cubit.dart';
 
 enum EventType { meeting, study, training }
 

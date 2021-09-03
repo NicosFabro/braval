@@ -39,6 +39,16 @@ class CalendarRepository {
         );
   }
 
+  Future<void> postMatch({
+    required String teamId,
+    required Match match,
+  }) async {
+    final collection = teamsCollection.doc(teamId).collection('matches');
+    final doc = collection.doc();
+    match = match.copyWith(id: doc.id);
+    await doc.set(match.toEntity().toDocument());
+  }
+
   Future<void> postMeeting({
     required String teamId,
     required List<Meeting> meetings,

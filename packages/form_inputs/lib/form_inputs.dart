@@ -1,7 +1,9 @@
 library form_inputs;
 
+export './src/address.dart';
 export './src/confirmed_password.dart';
 export './src/email.dart';
 export './src/name.dart';
 export './src/password.dart';
+export './src/rival.dart';
 export './src/surname.dart';
