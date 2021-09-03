@@ -7,28 +7,38 @@ class Team extends Equatable {
     required this.sport,
     required this.category,
     required this.year,
+    this.players,
   });
 
   final String id;
   final String sport;
   final String category;
   final String year;
+  final List<TeamPlayer>? players;
 
   Team copyWith({
     String? id,
     String? sport,
     String? category,
     String? year,
+    List<TeamPlayer>? players,
   }) {
     return Team(
       id: id ?? this.id,
       sport: sport ?? this.sport,
       category: category ?? this.category,
       year: year ?? this.year,
+      players: players ?? this.players,
     );
   }
 
-  static const empty = Team(id: '', sport: '', category: '', year: '');
+  static const empty = Team(
+    id: '',
+    sport: '',
+    category: '',
+    year: '',
+    players: [],
+  );
 
   bool get isEmpty => this == Team.empty;
 

@@ -10,6 +10,14 @@ class ProfileRepository {
     return Profile.fromEntity(ProfileEntity.fromSnapshot(documentSnapshot));
   }
 
+  Future<List<Profile>> getProfilesByListOfIds(List<String> ids) async {
+    QuerySnapshot querySnapshot =
+        await profilesCollection.where('id', whereIn: ids).get();
+    return querySnapshot.docs
+        .map((e) => Profile.fromEntity(ProfileEntity.fromSnapshot(e)))
+        .toList();
+  }
+
   Future<void> createProfile(Profile profile) async {
     DocumentReference ref = profilesCollection.doc(profile.id);
     await ref.set(profile.toEntity().toDocument());

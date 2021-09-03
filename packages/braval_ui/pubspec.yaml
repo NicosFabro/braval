@@ -10,8 +10,11 @@ environment:
 dependencies:
   calendar_repository:
     path: ../calendar_repository
+  firebase_image: ^1.0.1
   flutter:
     sdk: flutter
+  profile_repository:
+    path: ../profile_repository
   table_calendar: ^3.0.2
   very_good_analysis: ^2.1.0
 

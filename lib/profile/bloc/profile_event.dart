@@ -14,3 +14,11 @@ class ProfileFetchRequested extends ProfileEvent {
   @override
   List<Object> get props => [userId];
 }
+
+class TeamPlayersProfilesFetchRequested extends ProfileEvent {
+  const TeamPlayersProfilesFetchRequested(this.playerIds);
+  final List<String> playerIds;
+
+  @override
+  List<Object> get props => [playerIds];
+}

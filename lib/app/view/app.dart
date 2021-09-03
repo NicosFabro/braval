@@ -5,6 +5,7 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+import 'package:braval/team/team.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -69,6 +70,11 @@ class App extends StatelessWidget {
           BlocProvider<ProfileBloc>(
             create: (_) => ProfileBloc(
               profileRepository: _profileRepository,
+            ),
+          ),
+          BlocProvider<TeamBloc>(
+            create: (_) => TeamBloc(
+              teamRepository: _teamRepository,
             ),
           ),
           BlocProvider<EventsBloc>(
