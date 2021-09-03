@@ -5,7 +5,6 @@ import 'package:calendar_repository/calendar_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:profile_repository/profile_repository.dart';
 
 class EventPage extends StatelessWidget {
   const EventPage({Key? key, required this.event}) : super(key: key);
