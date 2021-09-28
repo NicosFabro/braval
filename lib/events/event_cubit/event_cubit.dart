@@ -1,11 +1,10 @@
 import 'dart:developer';
 
-import 'package:calendar_repository/calendar_repository.dart';
-import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-
 import 'package:braval/events/view/create_event_page.dart';
+import 'package:calendar_repository/calendar_repository.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 part 'event_state.dart';
 

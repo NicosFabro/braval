@@ -1,6 +1,6 @@
+import 'package:braval_ui/braval_ui.dart';
 import 'package:braval_ui/src/typography/text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:braval_ui/braval_ui.dart';
 
 /// Namespace for the Braval [ThemeData]
 class BravalTheme {

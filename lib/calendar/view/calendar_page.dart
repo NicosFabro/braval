@@ -1,18 +1,12 @@
+import 'package:braval/calendar/events_bloc/events_bloc.dart';
+import 'package:braval/events/events.dart';
 import 'package:braval/events/view/create_event_page.dart';
 import 'package:braval/events/view/create_match_page.dart';
+import 'package:braval/profile/bloc/profile_bloc.dart';
+import 'package:braval_ui/braval_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-
-// Packages
-import 'package:braval_ui/braval_ui.dart';
-
-// Events
-import 'package:braval/events/events.dart';
-
-// Bloc
-import 'package:braval/calendar/events_bloc/events_bloc.dart';
-import 'package:braval/profile/bloc/profile_bloc.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({Key? key}) : super(key: key);

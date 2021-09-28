@@ -1,12 +1,8 @@
+import 'package:braval/profile/bloc/profile_bloc.dart';
 import 'package:braval/team/team.dart';
+import 'package:braval_ui/braval_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-// Packages
-import 'package:braval_ui/braval_ui.dart';
-
-// Bloc
-import 'package:braval/profile/bloc/profile_bloc.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);

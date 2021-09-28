@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:braval_ui/braval_ui.dart';
 import 'package:calendar_repository/calendar_repository.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class EventTile extends StatelessWidget {
   const EventTile({

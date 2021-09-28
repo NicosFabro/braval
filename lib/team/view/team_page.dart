@@ -1,9 +1,8 @@
 import 'package:braval/profile/bloc/profile_bloc.dart';
+import 'package:braval/team/team.dart';
 import 'package:braval_ui/braval_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:braval/team/team.dart';
 
 class TeamPage extends StatelessWidget {
   const TeamPage({Key? key}) : super(key: key);

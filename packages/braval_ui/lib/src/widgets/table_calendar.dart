@@ -1,8 +1,7 @@
+import 'package:braval_ui/braval_ui.dart';
+import 'package:calendar_repository/calendar_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:calendar_repository/calendar_repository.dart';
-
-import 'package:braval_ui/braval_ui.dart';
 
 class BravalTableCalendar extends StatefulWidget {
   const BravalTableCalendar({

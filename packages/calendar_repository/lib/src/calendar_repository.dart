@@ -1,6 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:calendar_repository/calendar_repository.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CalendarRepository {
   final teamsCollection = FirebaseFirestore.instance.collection('teams');
