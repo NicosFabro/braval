@@ -78,7 +78,7 @@ class App extends StatelessWidget {
             ),
           ),
           BlocProvider<EventsBloc>(
-            create: (context) => EventsBloc(
+            create: (_) => EventsBloc(
               calendarRepository: _calendarRepository,
             ),
           ),

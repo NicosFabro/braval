@@ -1,4 +1,6 @@
+export 'basket_match_event.dart';
 export 'event.dart';
+export 'football_match_event.dart';
 export 'match.dart';
 export 'match_entity.dart';
 export 'meeting.dart';
