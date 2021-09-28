@@ -6,6 +6,16 @@ class FootballMatchEvents extends Equatable {
   final FootballBravalStats braval;
   final FootballRivalStats rival;
 
+  FootballMatchEvents copyWith({
+    FootballBravalStats? braval,
+    FootballRivalStats? rival,
+  }) {
+    return FootballMatchEvents(
+      braval: braval ?? this.braval,
+      rival: rival ?? this.rival,
+    );
+  }
+
   static const empty = FootballMatchEvents(
     braval: FootballBravalStats.empty,
     rival: FootballRivalStats.empty,
@@ -14,6 +24,11 @@ class FootballMatchEvents extends Equatable {
   bool get isEmpty => this == FootballMatchEvents.empty;
 
   bool get isNotEmpty => this != FootballMatchEvents.empty;
+
+  static const goals = 'goals';
+  static const fouls = 'fouls';
+  static const yellowCards = 'yellowCards';
+  static const redCards = 'redCards';
 
   @override
   List<Object?> get props => [braval, rival];
@@ -27,16 +42,16 @@ class FootballBravalStats extends Equatable {
     required this.redCards,
   });
 
-  final Map<String, dynamic> goals;
-  final Map<String, dynamic> fouls;
-  final Map<String, dynamic> yellowCards;
-  final Map<String, dynamic> redCards;
+  final List<Map<String, dynamic>> goals;
+  final List<Map<String, dynamic>> fouls;
+  final List<Map<String, dynamic>> yellowCards;
+  final List<Map<String, dynamic>> redCards;
 
   FootballBravalStats copyWith({
-    Map<String, dynamic>? goals,
-    Map<String, dynamic>? fouls,
-    Map<String, dynamic>? yellowCards,
-    Map<String, dynamic>? redCards,
+    List<Map<String, dynamic>>? goals,
+    List<Map<String, dynamic>>? fouls,
+    List<Map<String, dynamic>>? yellowCards,
+    List<Map<String, dynamic>>? redCards,
   }) {
     return FootballBravalStats(
       goals: goals ?? this.goals,
@@ -47,10 +62,10 @@ class FootballBravalStats extends Equatable {
   }
 
   static const empty = FootballBravalStats(
-    goals: <String, dynamic>{},
-    fouls: <String, dynamic>{},
-    yellowCards: <String, dynamic>{},
-    redCards: <String, dynamic>{},
+    goals: [],
+    fouls: [],
+    yellowCards: [],
+    redCards: [],
   );
 
   bool get isEmpty => this == FootballBravalStats.empty;

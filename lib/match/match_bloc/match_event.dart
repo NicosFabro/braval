@@ -13,8 +13,8 @@ class FinishGameRequested extends MatchEvent {}
 
 class NextStageRequested extends MatchEvent {}
 
-class AddStatRequested extends MatchEvent {
-  const AddStatRequested(this.event, this.minute, this.playerId);
+class AddBravalStatRequested extends MatchEvent {
+  const AddBravalStatRequested(this.event, this.minute, this.playerId);
 
   final String event;
   final int minute;
@@ -22,4 +22,14 @@ class AddStatRequested extends MatchEvent {
 
   @override
   List<Object> get props => [event, minute, playerId];
+}
+
+class AddRivalStatRequested extends MatchEvent {
+  const AddRivalStatRequested(this.event, this.minute);
+
+  final String event;
+  final int minute;
+
+  @override
+  List<Object> get props => [event, minute];
 }

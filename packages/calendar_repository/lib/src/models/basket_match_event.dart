@@ -11,9 +11,24 @@ class BasketMatchEvents extends Equatable {
     rival: BasketRivalStats.empty,
   );
 
+  BasketMatchEvents copyWith({
+    BasketBravalStats? braval,
+    BasketRivalStats? rival,
+  }) {
+    return BasketMatchEvents(
+      braval: braval ?? this.braval,
+      rival: rival ?? this.rival,
+    );
+  }
+
   bool get isEmpty => this == BasketMatchEvents.empty;
 
   bool get isNotEmpty => this != BasketMatchEvents.empty;
+
+  static const freeShot = 'freeShot';
+  static const shot = 'shot';
+  static const triple = 'triple';
+  static const fouls = 'fouls';
 
   @override
   List<Object?> get props => [braval, rival];
@@ -27,16 +42,16 @@ class BasketBravalStats extends Equatable {
     required this.fouls,
   });
 
-  final Map<String, dynamic> freeShot;
-  final Map<String, dynamic> shot;
-  final Map<String, dynamic> triple;
-  final Map<String, dynamic> fouls;
+  final List<Map<String, dynamic>> freeShot;
+  final List<Map<String, dynamic>> shot;
+  final List<Map<String, dynamic>> triple;
+  final List<Map<String, dynamic>> fouls;
 
   BasketBravalStats copyWith({
-    Map<String, dynamic>? freeShot,
-    Map<String, dynamic>? shot,
-    Map<String, dynamic>? triple,
-    Map<String, dynamic>? fouls,
+    List<Map<String, dynamic>>? freeShot,
+    List<Map<String, dynamic>>? shot,
+    List<Map<String, dynamic>>? triple,
+    List<Map<String, dynamic>>? fouls,
   }) {
     return BasketBravalStats(
       freeShot: freeShot ?? this.freeShot,
@@ -47,10 +62,10 @@ class BasketBravalStats extends Equatable {
   }
 
   static const empty = BasketBravalStats(
-    freeShot: <String, dynamic>{},
-    shot: <String, dynamic>{},
-    triple: <String, dynamic>{},
-    fouls: <String, dynamic>{},
+    freeShot: [],
+    shot: [],
+    triple: [],
+    fouls: [],
   );
 
   bool get isEmpty => this == BasketBravalStats.empty;
