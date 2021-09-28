@@ -7,8 +7,6 @@ abstract class MatchEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class StartGameRequested extends MatchEvent {}
-
 class FinishGameRequested extends MatchEvent {}
 
 class NextStageRequested extends MatchEvent {}

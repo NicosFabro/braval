@@ -3,8 +3,11 @@ part of 'match_bloc.dart';
 enum MatchStatus {
   notStarted,
   first,
+  finishedFirst,
   second,
+  finishedSecond,
   third,
+  finishedThird,
   fourth,
   finished,
 }

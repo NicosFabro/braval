@@ -13,9 +13,7 @@ class MatchBloc extends Bloc<MatchEvent, MatchState> {
   Stream<MatchState> mapEventToState(
     MatchEvent event,
   ) async* {
-    if (event is StartGameRequested) {
-      yield* _mapStartGameRequestedToState(event);
-    } else if (event is FinishGameRequested) {
+    if (event is FinishGameRequested) {
       yield* _mapFinishGameRequestedToState(event);
     } else if (event is NextStageRequested) {
       yield* _mapNextStageRequestedToState(event);
@@ -24,12 +22,6 @@ class MatchBloc extends Bloc<MatchEvent, MatchState> {
     } else if (event is AddRivalStatRequested) {
       yield* _mapAddRivalStatRequestedToState(event);
     }
-  }
-
-  Stream<MatchState> _mapStartGameRequestedToState(
-    StartGameRequested event,
-  ) async* {
-    yield state.copyWith(status: MatchStatus.first);
   }
 
   Stream<MatchState> _mapFinishGameRequestedToState(
@@ -48,12 +40,21 @@ class MatchBloc extends Bloc<MatchEvent, MatchState> {
         status = MatchStatus.first;
         break;
       case MatchStatus.first:
+        status = MatchStatus.finishedFirst;
+        break;
+      case MatchStatus.finishedFirst:
         status = MatchStatus.second;
         break;
       case MatchStatus.second:
+        status = MatchStatus.finishedSecond;
+        break;
+      case MatchStatus.finishedSecond:
         status = MatchStatus.third;
         break;
       case MatchStatus.third:
+        status = MatchStatus.finishedThird;
+        break;
+      case MatchStatus.finishedThird:
         status = MatchStatus.fourth;
         break;
       case MatchStatus.fourth:

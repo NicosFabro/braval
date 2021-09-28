@@ -177,6 +177,9 @@ class _EventRow extends StatelessWidget {
               color: BravalColors.oceanGreen,
               onTap: () => bloc.add(AddBravalStatRequested(event, 0, '')),
               enabled: state.status != MatchStatus.notStarted &&
+                  state.status != MatchStatus.finishedFirst &&
+                  state.status != MatchStatus.finishedSecond &&
+                  state.status != MatchStatus.finishedThird &&
                   state.status != MatchStatus.finished,
             ),
             Flexible(
@@ -233,6 +236,9 @@ class _EventRow extends StatelessWidget {
               color: BravalColors.defeat,
               onTap: () => bloc.add(AddRivalStatRequested(event, 0)),
               enabled: state.status != MatchStatus.notStarted &&
+                  state.status != MatchStatus.finishedFirst &&
+                  state.status != MatchStatus.finishedSecond &&
+                  state.status != MatchStatus.finishedThird &&
                   state.status != MatchStatus.finished,
             ),
           ],
@@ -251,48 +257,51 @@ class _EndPartButton extends StatelessWidget {
       width: 300,
       child: BlocBuilder<MatchBloc, MatchState>(
         builder: (context, state) {
+          String text;
+          switch (state.status) {
+            case MatchStatus.notStarted:
+              text = 'Empezar partido';
+              break;
+            case MatchStatus.first:
+              text = 'Finalizar 1a parte';
+              break;
+            case MatchStatus.finishedFirst:
+              text = 'Empezar 2a parte';
+              break;
+            case MatchStatus.second:
+              text = 'Finalizar 2a parte';
+              break;
+            case MatchStatus.finishedSecond:
+              text = 'Empezar 3a parte';
+              break;
+            case MatchStatus.third:
+              text = 'Finalizar 3a parte';
+              break;
+            case MatchStatus.finishedThird:
+              text = 'Empezar 4a parte';
+              break;
+            case MatchStatus.fourth:
+              text = 'Finalizar 4a parte';
+              break;
+            case MatchStatus.finished:
+              text = 'Finalizar partido';
+              break;
+          }
           return OutlinedButton(
             onPressed: () {
               final bloc = context.read<MatchBloc>();
-              if (state.status == MatchStatus.notStarted) {
-                bloc.add(StartGameRequested());
-              } else {
-                switch (state.status) {
-                  case MatchStatus.notStarted:
-                    break;
-                  case MatchStatus.first:
-                    bloc.add(NextStageRequested());
-                    break;
-                  case MatchStatus.second:
-                    if (state.matchSport == Team.sportFootball) {
-                      bloc.add(FinishGameRequested());
-                    } else {
-                      bloc.add(NextStageRequested());
-                    }
-                    break;
-                  case MatchStatus.third:
-                    bloc.add(NextStageRequested());
-                    break;
-                  case MatchStatus.fourth:
-                    bloc.add(FinishGameRequested());
-                    break;
-                  case MatchStatus.finished:
-                    break;
+              if (state.status == MatchStatus.second) {
+                if (state.matchSport == Team.sportFootball) {
+                  bloc.add(FinishGameRequested());
+                } else {
+                  bloc.add(NextStageRequested());
                 }
+              } else {
+                bloc.add(NextStageRequested());
               }
             },
             child: Text(
-              state.status == MatchStatus.notStarted
-                  ? 'Empezar partido'
-                  : state.status == MatchStatus.first
-                      ? 'Finalizar 1a parte'
-                      : state.status == MatchStatus.second
-                          ? 'Finalizar 2a parte'
-                          : state.status == MatchStatus.third
-                              ? 'Finalizar 3a parte'
-                              : state.status == MatchStatus.fourth
-                                  ? 'Finalizar 4a parte'
-                                  : 'Finalizar partido',
+              text,
               style: BravalTextStyle.button.copyWith(
                 color: BravalColors.oceanGreen,
               ),
