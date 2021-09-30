@@ -1,3 +1,4 @@
+import 'package:braval/match/match.dart';
 import 'package:braval/match/match_bloc/match_bloc.dart';
 import 'package:braval/team/team.dart';
 import 'package:braval_ui/braval_ui.dart';
@@ -29,34 +30,57 @@ class MatchPage extends StatefulWidget {
 class _MatchPageState extends State<MatchPage> {
   List<Widget> _buildFootballButtons() {
     return [
-      const _EventRow(label: 'Goles', event: FootballMatchEvents.goals),
-      BravalSpaces.mediumSeparator,
-      const _EventRow(label: 'Faltas', event: FootballMatchEvents.fouls),
-      BravalSpaces.mediumSeparator,
-      const _EventRow(
-        label: 'Tarjetas amarillas',
-        event: FootballMatchEvents.yellowCards,
+      _EventRow(
+        label: 'Goles',
+        event: FootballMatchEvents.goals,
+        players: widget.match.lineup,
       ),
       BravalSpaces.mediumSeparator,
-      const _EventRow(
+      _EventRow(
+        label: 'Faltas',
+        event: FootballMatchEvents.fouls,
+        players: widget.match.lineup,
+      ),
+      BravalSpaces.mediumSeparator,
+      _EventRow(
+        label: 'Tarjetas amarillas',
+        event: FootballMatchEvents.yellowCards,
+        players: widget.match.lineup,
+      ),
+      BravalSpaces.mediumSeparator,
+      _EventRow(
         label: 'Tarjetas rojas',
         event: FootballMatchEvents.redCards,
+        players: widget.match.lineup,
       ),
     ];
   }
 
   List<Widget> _buildBasketballButtons() {
     return [
-      const _EventRow(
+      _EventRow(
         label: 'Tiros libres (1p)',
         event: BasketMatchEvents.freeShot,
+        players: widget.match.lineup,
       ),
       BravalSpaces.mediumSeparator,
-      const _EventRow(label: 'Canastas (2p)', event: BasketMatchEvents.shot),
+      _EventRow(
+        label: 'Canastas (2p)',
+        event: BasketMatchEvents.shot,
+        players: widget.match.lineup,
+      ),
       BravalSpaces.mediumSeparator,
-      const _EventRow(label: 'Triples (3p)', event: BasketMatchEvents.triple),
+      _EventRow(
+        label: 'Triples (3p)',
+        event: BasketMatchEvents.triple,
+        players: widget.match.lineup,
+      ),
       BravalSpaces.mediumSeparator,
-      const _EventRow(label: 'Faltas', event: BasketMatchEvents.fouls),
+      _EventRow(
+        label: 'Faltas',
+        event: BasketMatchEvents.fouls,
+        players: widget.match.lineup,
+      ),
     ];
   }
 
@@ -160,10 +184,28 @@ class _EventRow extends StatelessWidget {
     Key? key,
     required this.label,
     required this.event,
+    required this.players,
   }) : super(key: key);
 
   final String label;
   final String event;
+  final List<String> players;
+
+  bool isEnabled(MatchState state) =>
+      state.status != MatchStatus.notStarted &&
+      state.status != MatchStatus.finishedFirst &&
+      state.status != MatchStatus.finishedSecond &&
+      state.status != MatchStatus.finishedThird &&
+      state.status != MatchStatus.finished;
+
+  Future<String?> openPlayerChoose(
+    BuildContext context,
+    List<String> players,
+  ) async {
+    return Navigator.of(context).push<String>(
+      MatchPlayerChoose(players: players),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -175,31 +217,19 @@ class _EventRow extends StatelessWidget {
           children: [
             StatButton(
               color: BravalColors.oceanGreen,
-              onTap: () => bloc.add(AddBravalStatRequested(event, 0, '')),
-              enabled: state.status != MatchStatus.notStarted &&
-                  state.status != MatchStatus.finishedFirst &&
-                  state.status != MatchStatus.finishedSecond &&
-                  state.status != MatchStatus.finishedThird &&
-                  state.status != MatchStatus.finished,
+              enabled: isEnabled(state),
+              onTap: () async {
+                final playerId = await openPlayerChoose(context, players);
+                if (playerId != null) {
+                  // TODO: add minutes
+                  bloc.add(AddBravalStatRequested(event, 0, playerId));
+                }
+              },
             ),
             Flexible(
               flex: 2,
               child: Text(
-                state.matchSport == Team.sportFootball
-                    ? event == FootballMatchEvents.goals
-                        ? '${state.footballMatchEvents.braval.goals.length}'
-                        : event == FootballMatchEvents.fouls
-                            ? '${state.footballMatchEvents.braval.fouls.length}'
-                            : event == FootballMatchEvents.yellowCards
-                                ? '${state.footballMatchEvents.braval.yellowCards.length}'
-                                : '${state.footballMatchEvents.braval.redCards.length}'
-                    : event == BasketMatchEvents.freeShot
-                        ? '${state.basketMatchEvents.braval.freeShot.length}'
-                        : event == BasketMatchEvents.shot
-                            ? '${state.basketMatchEvents.braval.shot.length}'
-                            : event == BasketMatchEvents.triple
-                                ? '${state.basketMatchEvents.braval.triple.length}'
-                                : '${state.basketMatchEvents.braval.fouls.length}',
+                getBravalEventPoints(state),
                 style: BravalTextStyle.headline2,
               ),
             ),
@@ -214,37 +244,57 @@ class _EventRow extends StatelessWidget {
             Flexible(
               flex: 2,
               child: Text(
-                state.matchSport == Team.sportFootball
-                    ? event == FootballMatchEvents.goals
-                        ? '${state.footballMatchEvents.rival.goals.length}'
-                        : event == FootballMatchEvents.fouls
-                            ? '${state.footballMatchEvents.rival.fouls.length}'
-                            : event == FootballMatchEvents.yellowCards
-                                ? '${state.footballMatchEvents.rival.yellowCards.length}'
-                                : '${state.footballMatchEvents.rival.redCards.length}'
-                    : event == BasketMatchEvents.freeShot
-                        ? '${state.basketMatchEvents.rival.freeShot.length}'
-                        : event == BasketMatchEvents.shot
-                            ? '${state.basketMatchEvents.rival.shot.length}'
-                            : event == BasketMatchEvents.triple
-                                ? '${state.basketMatchEvents.rival.triple.length}'
-                                : '${state.basketMatchEvents.rival.fouls.length}',
+                getRivalEventPoints(state),
                 style: BravalTextStyle.headline2,
               ),
             ),
             StatButton(
               color: BravalColors.defeat,
-              onTap: () => bloc.add(AddRivalStatRequested(event, 0)),
-              enabled: state.status != MatchStatus.notStarted &&
-                  state.status != MatchStatus.finishedFirst &&
-                  state.status != MatchStatus.finishedSecond &&
-                  state.status != MatchStatus.finishedThird &&
-                  state.status != MatchStatus.finished,
+              enabled: isEnabled(state),
+              onTap: () {
+                bloc.add(AddRivalStatRequested(event, 0));
+              },
             ),
           ],
         );
       },
     );
+  }
+
+  String getBravalEventPoints(MatchState state) {
+    return state.matchSport == Team.sportFootball
+        ? event == FootballMatchEvents.goals
+            ? '${state.footballMatchEvents.braval.goals.length}'
+            : event == FootballMatchEvents.fouls
+                ? '${state.footballMatchEvents.braval.fouls.length}'
+                : event == FootballMatchEvents.yellowCards
+                    ? '${state.footballMatchEvents.braval.yellowCards.length}'
+                    : '${state.footballMatchEvents.braval.redCards.length}'
+        : event == BasketMatchEvents.freeShot
+            ? '${state.basketMatchEvents.braval.freeShot.length}'
+            : event == BasketMatchEvents.shot
+                ? '${state.basketMatchEvents.braval.shot.length}'
+                : event == BasketMatchEvents.triple
+                    ? '${state.basketMatchEvents.braval.triple.length}'
+                    : '${state.basketMatchEvents.braval.fouls.length}';
+  }
+
+  String getRivalEventPoints(MatchState state) {
+    return state.matchSport == Team.sportFootball
+        ? event == FootballMatchEvents.goals
+            ? '${state.footballMatchEvents.rival.goals.length}'
+            : event == FootballMatchEvents.fouls
+                ? '${state.footballMatchEvents.rival.fouls.length}'
+                : event == FootballMatchEvents.yellowCards
+                    ? '${state.footballMatchEvents.rival.yellowCards.length}'
+                    : '${state.footballMatchEvents.rival.redCards.length}'
+        : event == BasketMatchEvents.freeShot
+            ? '${state.basketMatchEvents.rival.freeShot.length}'
+            : event == BasketMatchEvents.shot
+                ? '${state.basketMatchEvents.rival.shot.length}'
+                : event == BasketMatchEvents.triple
+                    ? '${state.basketMatchEvents.rival.triple.length}'
+                    : '${state.basketMatchEvents.rival.fouls.length}';
   }
 }
 
@@ -290,12 +340,9 @@ class _EndPartButton extends StatelessWidget {
           return OutlinedButton(
             onPressed: () {
               final bloc = context.read<MatchBloc>();
-              if (state.status == MatchStatus.second) {
-                if (state.matchSport == Team.sportFootball) {
-                  bloc.add(FinishGameRequested());
-                } else {
-                  bloc.add(NextStageRequested());
-                }
+              if (state.status == MatchStatus.second &&
+                  state.matchSport == Team.sportFootball) {
+                bloc.add(FinishGameRequested());
               } else {
                 bloc.add(NextStageRequested());
               }
