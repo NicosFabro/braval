@@ -1,5 +1,6 @@
 import 'package:braval/match/match.dart';
 import 'package:braval/match/match_bloc/match_bloc.dart';
+import 'package:braval/match/timer_cubit/timer_cubit.dart';
 import 'package:braval/team/team.dart';
 import 'package:braval_ui/braval_ui.dart';
 import 'package:calendar_repository/calendar_repository.dart';
@@ -14,10 +15,17 @@ class MatchPage extends StatefulWidget {
 
   static Route<MatchPage> route({required Match match}) {
     return MaterialPageRoute<MatchPage>(
-      builder: (_) => BlocProvider(
-        create: (context) => MatchBloc(
-          context.read<TeamBloc>().state.team.sport,
-        ),
+      builder: (_) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => MatchBloc(
+              context.read<TeamBloc>().state.team.sport,
+            ),
+          ),
+          BlocProvider(
+            create: (context) => TimerCubit(),
+          ),
+        ],
         child: MatchPage(match: match),
       ),
     );
@@ -86,92 +94,103 @@ class _MatchPageState extends State<MatchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.only(top: 38, left: 16, right: 16),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 150,
-                child: BlocBuilder<MatchBloc, MatchState>(
-                  builder: (context, state) {
-                    final braval = state.matchSport == Team.sportFootball
-                        ? state.footballMatchEvents.braval.goals.length
-                        : state.basketMatchEvents.braval.freeShot.length +
-                            state.basketMatchEvents.braval.shot.length * 2 +
-                            state.basketMatchEvents.braval.triple.length * 3;
+    return WillPopScope(
+      onWillPop: () async {
+        context.read<TimerCubit>().stopTimer();
+        await context.read<TimerCubit>().close();
+        return true;
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.only(top: 38, left: 16, right: 16),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 150,
+                  child: BlocBuilder<MatchBloc, MatchState>(
+                    builder: (context, state) {
+                      final braval = state.matchSport == Team.sportFootball
+                          ? state.footballMatchEvents.braval.goals.length
+                          : state.basketMatchEvents.braval.freeShot.length +
+                              state.basketMatchEvents.braval.shot.length * 2 +
+                              state.basketMatchEvents.braval.triple.length * 3;
 
-                    final rival = state.matchSport == Team.sportFootball
-                        ? state.footballMatchEvents.rival.goals.length
-                        : state.basketMatchEvents.rival.freeShot.length +
-                            state.basketMatchEvents.rival.shot.length * 2 +
-                            state.basketMatchEvents.rival.triple.length * 3;
-                    return Row(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Column(
-                            children: [
-                              Text(
-                                '$braval',
-                                style: BravalTextStyle.headline1.copyWith(
-                                  color: BravalColors.oceanGreen,
-                                ),
-                              ),
-                              Text(
-                                'Braval',
-                                style: BravalTextStyle.headline3.copyWith(
-                                  color: BravalColors.oceanGreen,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            '00:00',
-                            style: BravalTextStyle.headline5,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: Center(
+                      final rival = state.matchSport == Team.sportFootball
+                          ? state.footballMatchEvents.rival.goals.length
+                          : state.basketMatchEvents.rival.freeShot.length +
+                              state.basketMatchEvents.rival.shot.length * 2 +
+                              state.basketMatchEvents.rival.triple.length * 3;
+                      return Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
                             child: Column(
                               children: [
                                 Text(
-                                  '$rival',
+                                  '$braval',
                                   style: BravalTextStyle.headline1.copyWith(
-                                    color: BravalColors.defeat,
+                                    color: BravalColors.oceanGreen,
                                   ),
                                 ),
                                 Text(
-                                  'Escola Anna Ravell',
+                                  'Braval',
                                   style: BravalTextStyle.headline3.copyWith(
-                                    color: BravalColors.defeat,
+                                    color: BravalColors.oceanGreen,
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
                               ],
                             ),
                           ),
-                        ),
-                      ],
-                    );
-                  },
+                          Expanded(
+                            child: BlocBuilder<TimerCubit, TimerState>(
+                              builder: (context, state) {
+                                return Text(
+                                  state.timerStr,
+                                  style: BravalTextStyle.headline5,
+                                  textAlign: TextAlign.center,
+                                );
+                              },
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Center(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    '$rival',
+                                    style: BravalTextStyle.headline1.copyWith(
+                                      color: BravalColors.defeat,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Escola Anna Ravell',
+                                    style: BravalTextStyle.headline3.copyWith(
+                                      color: BravalColors.defeat,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                 ),
-              ),
-              BravalSpaces.bigSeparator,
-              if (context.read<TeamBloc>().state.team.sport ==
-                  Team.sportFootball)
-                ..._buildFootballButtons()
-              else
-                ..._buildBasketballButtons(),
-              BravalSpaces.bigSeparator,
-              const _EndPartButton(),
-            ],
+                BravalSpaces.bigSeparator,
+                if (context.read<TeamBloc>().state.team.sport ==
+                    Team.sportFootball)
+                  ..._buildFootballButtons()
+                else
+                  ..._buildBasketballButtons(),
+                BravalSpaces.bigSeparator,
+                const _EndPartButton(),
+              ],
+            ),
           ),
         ),
       ),
@@ -210,6 +229,7 @@ class _EventRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<MatchBloc>();
+    final timer = context.read<TimerCubit>();
     return BlocBuilder<MatchBloc, MatchState>(
       builder: (context, state) {
         return Row(
@@ -221,8 +241,11 @@ class _EventRow extends StatelessWidget {
               onTap: () async {
                 final playerId = await openPlayerChoose(context, players);
                 if (playerId != null) {
-                  // TODO: add minutes
-                  bloc.add(AddBravalStatRequested(event, 0, playerId));
+                  bloc.add(AddBravalStatRequested(
+                    event,
+                    (timer.state.duration / 60).floor(),
+                    playerId,
+                  ));
                 }
               },
             ),
@@ -252,7 +275,10 @@ class _EventRow extends StatelessWidget {
               color: BravalColors.defeat,
               enabled: isEnabled(state),
               onTap: () {
-                bloc.add(AddRivalStatRequested(event, 0));
+                bloc.add(AddRivalStatRequested(
+                  event,
+                  (timer.state.duration / 60).floor(),
+                ));
               },
             ),
           ],
@@ -339,12 +365,46 @@ class _EndPartButton extends StatelessWidget {
           }
           return OutlinedButton(
             onPressed: () {
-              final bloc = context.read<MatchBloc>();
+              final match = context.read<MatchBloc>();
+              final timer = context.read<TimerCubit>();
               if (state.status == MatchStatus.second &&
                   state.matchSport == Team.sportFootball) {
-                bloc.add(FinishGameRequested());
+                match.add(FinishGameRequested());
+                timer.finishTimer();
               } else {
-                bloc.add(NextStageRequested());
+                match.add(NextStageRequested());
+                switch (state.status) {
+                  case MatchStatus.notStarted:
+                    timer.startTimer();
+                    break;
+                  case MatchStatus.first:
+                    timer.stopTimer();
+                    break;
+                  case MatchStatus.finishedFirst:
+                    timer.startTimer(
+                        startAtSecond: state.matchSport == Team.sportFootball
+                            ? 1200
+                            : 600);
+                    break;
+                  case MatchStatus.second:
+                    timer.stopTimer();
+                    break;
+                  case MatchStatus.finishedSecond:
+                    timer.startTimer(startAtSecond: 1200);
+                    break;
+                  case MatchStatus.third:
+                    timer.stopTimer();
+                    break;
+                  case MatchStatus.finishedThird:
+                    timer.startTimer(startAtSecond: 1800);
+                    break;
+                  case MatchStatus.fourth:
+                    timer.finishTimer();
+                    break;
+                  case MatchStatus.finished:
+                    Navigator.of(context).pop();
+                    break;
+                }
               }
             },
             child: Text(
