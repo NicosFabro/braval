@@ -94,7 +94,7 @@ class EventPage extends StatelessWidget {
         shrinkWrap: true,
         itemCount: lineupProfiles.length,
         itemBuilder: (context, i) {
-          return PlayerAvatar(
+          return PlayerAvatarName(
             profile: lineupProfiles[i],
             onTap: () => null,
           );
