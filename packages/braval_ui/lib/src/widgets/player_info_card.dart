@@ -21,7 +21,6 @@ class PlayerInfoCard extends StatelessWidget {
     final width = (screenWidth - 80) * .5;
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(16),
       decoration: const BoxDecoration(
         color: BravalColors.shark,

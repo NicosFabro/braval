@@ -4,6 +4,7 @@ export 'event_tile.dart';
 export 'player_avatar.dart';
 export 'player_avatar_name.dart';
 export 'player_info_card.dart';
+export 'player_stats_button.dart';
 export 'snackbars.dart';
 export 'stat_button.dart';
 export 'table_calendar.dart';

@@ -28,22 +28,40 @@ class PlayerProfilePage extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
-            child: Column(
-              children: [
-                BravalSpaces.bigSeparator,
-                PlayerAvatar(profile: profile, onTap: () {}),
-                Text(
-                  '${profile.name} ${profile.surname}',
-                  style: BravalTextStyle.headline2,
-                ),
-                BravalSpaces.mediumSeparator,
-                PlayerInfoCard(
-                  team: '$sport $category',
-                  position: 'Portero',
-                  schoolYear: '3 ESO',
-                  backNumber: '6',
-                ),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 38),
+              child: Column(
+                children: [
+                  PlayerAvatar(profile: profile, onTap: () {}),
+                  Text(
+                    '${profile.name} ${profile.surname}',
+                    style: BravalTextStyle.headline2,
+                  ),
+                  BravalSpaces.mediumSeparator,
+                  PlayerInfoCard(
+                    team: '$sport $category',
+                    position: 'Portero',
+                    schoolYear: '3 ESO',
+                    backNumber: '6',
+                  ),
+                  BravalSpaces.mediumSeparator,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      PlayerStatsButton(
+                        type: StatsType.study,
+                        score: 4.8,
+                        onTap: () {},
+                      ),
+                      PlayerStatsButton(
+                        type: StatsType.football,
+                        score: 4.8,
+                        onTap: () {},
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
