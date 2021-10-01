@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:braval_ui/braval_ui.dart';
+import 'package:flutter/material.dart';
 
 abstract class BravalSnackBars {
   static SnackBar successSnackBar(

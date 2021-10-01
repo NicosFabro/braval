@@ -1,6 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:calendar_repository/calendar_repository.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CalendarRepository {
   final teamsCollection = FirebaseFirestore.instance.collection('teams');
@@ -39,6 +38,16 @@ class CalendarRepository {
         );
   }
 
+  Future<void> postMatch({
+    required String teamId,
+    required Match match,
+  }) async {
+    final collection = teamsCollection.doc(teamId).collection('matches');
+    final doc = collection.doc();
+    match = match.copyWith(id: doc.id);
+    await doc.set(match.toEntity().toDocument());
+  }
+
   Future<void> postMeeting({
     required String teamId,
     required List<Meeting> meetings,
@@ -73,5 +82,31 @@ class CalendarRepository {
       training = training.copyWith(id: doc.id);
       await doc.set(training.toEntity().toDocument());
     }
+  }
+
+  // MATCH
+  Future<void> putMatch({
+    required String teamId,
+    required Match match,
+  }) async {
+    final collection = teamsCollection.doc(teamId).collection('matches');
+    final doc = collection.doc(match.id);
+    await doc.set(match.toEntity().toDocument());
+  }
+
+  Future<void> postFootballMatchEvents({
+    required String teamId,
+    required String matchId,
+    required FootballMatchEvents events,
+  }) async {
+    final collection = teamsCollection
+        .doc(teamId)
+        .collection('matches')
+        .doc(matchId)
+        .collection('events');
+    final braval = collection.doc('braval');
+    final rival = collection.doc('rival');
+    await braval.set(events.braval.toEntity().toDocument());
+    await rival.set(events.rival.toEntity().toDocument());
   }
 }

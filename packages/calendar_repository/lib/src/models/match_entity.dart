@@ -8,6 +8,7 @@ class MatchEntity extends Equatable {
     this.rival,
     this.address,
     this.isLocal,
+    this.isFinished,
     this.lineup,
   );
 
@@ -16,6 +17,7 @@ class MatchEntity extends Equatable {
   final String rival;
   final String address;
   final bool isLocal;
+  final bool isFinished;
   final List<String> lineup;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
@@ -24,6 +26,7 @@ class MatchEntity extends Equatable {
         'rival': rival,
         'address': address,
         'isLocal': isLocal,
+        'isFinished': isFinished,
         'lineup': lineup,
       };
 
@@ -33,6 +36,7 @@ class MatchEntity extends Equatable {
         json['rival'] as String,
         json['address'] as String,
         json['isLocal'] as bool,
+        json['isFinished'] as bool,
         json['lineup'] as List<String>,
       );
 
@@ -42,6 +46,7 @@ class MatchEntity extends Equatable {
         snap.get('rival') as String,
         snap.get('address') as String,
         snap.get('isLocal') as bool,
+        snap.get('isFinished') as bool,
         (snap.get('lineup') as List<dynamic>).cast<String>(),
       );
 
@@ -51,6 +56,7 @@ class MatchEntity extends Equatable {
         'rival': rival,
         'address': address,
         'isLocal': isLocal,
+        'isFinished': isFinished,
         'lineup': lineup,
       };
 
@@ -61,6 +67,7 @@ class MatchEntity extends Equatable {
         rival,
         address,
         isLocal,
+        isFinished,
         lineup,
       ];
 }

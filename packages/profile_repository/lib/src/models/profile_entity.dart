@@ -26,7 +26,7 @@ class ProfileEntity extends Equatable {
   final String avatarURL;
   final List<String> achievements;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'id': id,
         'name': name,
         'surname': surname,
@@ -65,7 +65,7 @@ class ProfileEntity extends Equatable {
         (snap.get('achievements') as List<dynamic>).cast<String>(),
       );
 
-  Map<String, dynamic> toDocument() => {
+  Map<String, dynamic> toDocument() => <String, dynamic>{
         'id': id,
         'name': name,
         'surname': surname,

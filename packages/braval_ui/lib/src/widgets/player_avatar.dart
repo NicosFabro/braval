@@ -8,10 +8,12 @@ class PlayerAvatar extends StatelessWidget {
     Key? key,
     required this.profile,
     required this.onTap,
+    this.isSelected = false,
   }) : super(key: key);
 
   final Profile profile;
   final Function() onTap;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -19,21 +21,32 @@ class PlayerAvatar extends StatelessWidget {
       onTap: onTap,
       child: Column(
         children: [
-          CircleAvatar(
-            radius: 30,
-            backgroundColor: BravalColors.oceanGreen,
-            backgroundImage: profile.avatarURL == ''
-                ? null
-                : FirebaseImage(profile.avatarURL),
-            child: Text(
-              profile.name.substring(0, 1).toUpperCase(),
-              style: BravalTextStyle.headline4,
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: isSelected
+                    ? BravalColors.oceanGreen
+                    : BravalColors.transparent,
+                width: 4,
+              ),
+            ),
+            child: CircleAvatar(
+              radius: 30,
+              backgroundColor: BravalColors.whiteBackground,
+              backgroundImage: profile.avatarURL == ''
+                  ? null
+                  : FirebaseImage(profile.avatarURL),
+              child: Text(
+                profile.name.substring(0, 1).toUpperCase(),
+                style: BravalTextStyle.headline4.copyWith(
+                  color: BravalColors.black,
+                ),
+              ),
             ),
           ),
-          Text(
-            '${profile.name} ${profile.surname}',
-            style: BravalTextStyle.bodyText1,
-          ),
+          Text(profile.name, style: BravalTextStyle.bodyText1),
+          Text(profile.surname, style: BravalTextStyle.bodyText1),
         ],
       ),
     );

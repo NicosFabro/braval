@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
-
-import 'package:braval/home/home.dart';
 import 'package:braval/calendar/calendar.dart';
+import 'package:braval/home/home.dart';
 import 'package:braval/profile/profile.dart';
 import 'package:braval/team/team.dart';
+import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

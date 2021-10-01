@@ -1,5 +1,5 @@
-import 'package:flutter/widgets.dart';
 import 'package:braval_ui/braval_ui.dart';
+import 'package:flutter/widgets.dart';
 
 /// Braval Text Style Definitions
 class BravalTextStyle {

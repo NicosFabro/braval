@@ -1,17 +1,12 @@
+import 'package:authentication_repository/authentication_repository.dart';
+import 'package:braval/login/login.dart';
+import 'package:braval/signup/signup.dart';
+import 'package:braval/splash_screen/splash_screen.dart';
 import 'package:braval_ui/braval_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-
-// Login
-import 'package:braval/login/login.dart';
-
-// SignUp
-import 'package:braval/signup/signup.dart';
-
-// Packages
-import 'package:authentication_repository/authentication_repository.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -51,6 +46,8 @@ class LoginView extends StatelessWidget {
                 descriptionStyle: Theme.of(context).textTheme.subtitle2!,
               ),
             );
+        } else if (state.status.isSubmissionSuccess) {
+          Navigator.of(context).pushReplacement(SplashScreen.route());
         }
       },
       child: Center(

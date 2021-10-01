@@ -11,6 +11,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
+  static Route<SplashScreen> route() =>
+      MaterialPageRoute<SplashScreen>(builder: (_) => const SplashScreen());
+
   @override
   Widget build(BuildContext context) {
     final userId = context.read<AppBloc>().state.user.id;

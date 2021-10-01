@@ -8,19 +8,15 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
+import 'package:braval/app/app_bloc_observer.dart';
+import 'package:braval/app/view/app.dart';
+import 'package:calendar_repository/calendar_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
-
-// App
-import 'package:braval/app/view/app.dart';
-import 'package:braval/app/app_bloc_observer.dart';
-
-// Packages
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:profile_repository/profile_repository.dart';
 import 'package:team_repository/team_repository.dart';
-import 'package:calendar_repository/calendar_repository.dart';
 
 Future<void> main() async {
   Bloc.observer = AppBlocObserver();

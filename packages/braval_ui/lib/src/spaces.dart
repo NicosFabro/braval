@@ -16,4 +16,16 @@ abstract class BravalSpaces {
     height: betweenElements,
     width: betweenElements,
   );
+
+  /// Separator Between Elements
+  static const SizedBox mediumSeparator = SizedBox(
+    height: 32,
+    width: 32,
+  );
+
+  /// Big Separator Between Elements
+  static const SizedBox bigSeparator = SizedBox(
+    height: 40,
+    width: 40,
+  );
 }

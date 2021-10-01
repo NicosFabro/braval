@@ -10,6 +10,9 @@ class Team extends Equatable {
     this.players,
   });
 
+  static const sportFootball = 'football';
+  static const sportBasket = 'basket';
+
   final String id;
   final String sport;
   final String category;

@@ -1,10 +1,8 @@
-import 'package:flutter/widgets.dart';
-import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-
-import 'package:cache/cache.dart';
-
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:authentication_repository/src/exceptions/exceptions.dart';
+import 'package:cache/cache.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:flutter/widgets.dart';
 
 class AuthenticationRepository {
   AuthenticationRepository({

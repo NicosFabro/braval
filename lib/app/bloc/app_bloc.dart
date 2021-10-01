@@ -1,13 +1,10 @@
 import 'dart:async';
 
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-
-// Packages
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:very_good_analysis/very_good_analysis.dart';
 
-// Bloc
 part 'app_event.dart';
 part 'app_state.dart';
 
