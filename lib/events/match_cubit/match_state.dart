@@ -7,6 +7,7 @@ class MatchState extends Equatable {
     required this.rival,
     required this.address,
     required this.isLocal,
+    required this.isFinished,
     required this.lineup,
     this.status = FormzStatus.pure,
   });
@@ -16,6 +17,7 @@ class MatchState extends Equatable {
   final Rival rival;
   final Address address;
   final bool isLocal;
+  final bool isFinished;
   final List<String> lineup;
   final FormzStatus status;
 
@@ -26,6 +28,7 @@ class MatchState extends Equatable {
         rival,
         address,
         isLocal,
+        isFinished,
         lineup,
         status,
       ];
@@ -36,6 +39,7 @@ class MatchState extends Equatable {
     Rival? rival,
     Address? address,
     bool? isLocal,
+    bool? isFinished,
     List<String>? lineup,
     FormzStatus? status,
   }) {
@@ -45,6 +49,7 @@ class MatchState extends Equatable {
       rival: rival ?? this.rival,
       address: address ?? this.address,
       isLocal: isLocal ?? this.isLocal,
+      isFinished: isFinished ?? this.isFinished,
       lineup: lineup ?? this.lineup,
       status: status ?? this.status,
     );

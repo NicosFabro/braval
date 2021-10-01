@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:calendar_repository/calendar_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -7,7 +9,12 @@ part 'match_event.dart';
 part 'match_state.dart';
 
 class MatchBloc extends Bloc<MatchEvent, MatchState> {
-  MatchBloc(String sport) : super(MatchState(matchSport: sport));
+  MatchBloc(
+    this._calendarRepository,
+    String sport,
+  ) : super(MatchState(matchSport: sport));
+
+  final CalendarRepository _calendarRepository;
 
   @override
   Stream<MatchState> mapEventToState(
@@ -213,6 +220,23 @@ class MatchBloc extends Bloc<MatchEvent, MatchState> {
       yield state.copyWith(
         basketMatchEvents: state.basketMatchEvents.copyWith(rival: events),
       );
+    }
+  }
+
+  Future<void> postMatchEventsRequested(
+    String teamId,
+    Match match,
+    FootballMatchEvents events,
+  ) async {
+    try {
+      await _calendarRepository.postFootballMatchEvents(
+        teamId: teamId,
+        matchId: match.id,
+        events: events,
+      );
+      await _calendarRepository.putMatch(teamId: teamId, match: match);
+    } on Exception {
+      log('error');
     }
   }
 }

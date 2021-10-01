@@ -15,6 +15,7 @@ class MatchCubit extends Cubit<MatchState> {
     required Rival rival,
     required Address address,
     required bool isLocal,
+    required bool isFinished,
     required List<String> lineup,
   }) : super(MatchState(
           date: date,
@@ -22,6 +23,7 @@ class MatchCubit extends Cubit<MatchState> {
           rival: rival,
           address: address,
           isLocal: isLocal,
+          isFinished: isFinished,
           lineup: lineup,
         ));
 
@@ -41,6 +43,7 @@ class MatchCubit extends Cubit<MatchState> {
         rival: state.rival.value,
         address: state.address.value,
         isLocal: state.isLocal,
+        isFinished: state.isFinished,
         lineup: state.lineup,
       );
       await _calendarRepository.postMatch(teamId: teamId, match: match);

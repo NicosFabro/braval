@@ -1,3 +1,4 @@
+import 'package:calendar_repository/src/models/models.dart';
 import 'package:equatable/equatable.dart';
 
 class FootballMatchEvents extends Equatable {
@@ -24,6 +25,20 @@ class FootballMatchEvents extends Equatable {
   bool get isEmpty => this == FootballMatchEvents.empty;
 
   bool get isNotEmpty => this != FootballMatchEvents.empty;
+
+  FootballMatchEventsEntity toEntity() => FootballMatchEventsEntity(
+        braval.toEntity(),
+        rival.toEntity(),
+      );
+
+  static FootballRivalStats fromEntity(FootballRivalStatsEntity entity) {
+    return FootballRivalStats(
+      goals: entity.goals,
+      fouls: entity.fouls,
+      yellowCards: entity.yellowCards,
+      redCards: entity.redCards,
+    );
+  }
 
   static const goals = 'goals';
   static const fouls = 'fouls';
@@ -72,6 +87,22 @@ class FootballBravalStats extends Equatable {
 
   bool get isNotEmpty => this != FootballBravalStats.empty;
 
+  FootballBravalStatsEntity toEntity() => FootballBravalStatsEntity(
+        goals,
+        fouls,
+        yellowCards,
+        redCards,
+      );
+
+  static FootballBravalStats fromEntity(FootballBravalStatsEntity entity) {
+    return FootballBravalStats(
+      goals: entity.goals,
+      fouls: entity.fouls,
+      yellowCards: entity.yellowCards,
+      redCards: entity.redCards,
+    );
+  }
+
   @override
   List<Object?> get props => [
         goals,
@@ -118,6 +149,22 @@ class FootballRivalStats extends Equatable {
   bool get isEmpty => this == FootballBravalStats.empty;
 
   bool get isNotEmpty => this != FootballBravalStats.empty;
+
+  FootballRivalStatsEntity toEntity() => FootballRivalStatsEntity(
+        goals,
+        fouls,
+        yellowCards,
+        redCards,
+      );
+
+  static FootballRivalStats fromEntity(FootballRivalStatsEntity entity) {
+    return FootballRivalStats(
+      goals: entity.goals,
+      fouls: entity.fouls,
+      yellowCards: entity.yellowCards,
+      redCards: entity.redCards,
+    );
+  }
 
   @override
   List<Object?> get props => [

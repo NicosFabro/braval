@@ -19,6 +19,7 @@ class MatchPage extends StatefulWidget {
         providers: [
           BlocProvider(
             create: (context) => MatchBloc(
+              context.read<CalendarRepository>(),
               context.read<TeamBloc>().state.team.sport,
             ),
           ),
@@ -188,7 +189,7 @@ class _MatchPageState extends State<MatchPage> {
                 else
                   ..._buildBasketballButtons(),
                 BravalSpaces.bigSeparator,
-                const _EndPartButton(),
+                _EndPartButton(match: widget.match),
               ],
             ),
           ),
@@ -325,7 +326,9 @@ class _EventRow extends StatelessWidget {
 }
 
 class _EndPartButton extends StatelessWidget {
-  const _EndPartButton({Key? key}) : super(key: key);
+  const _EndPartButton({Key? key, required this.match}) : super(key: key);
+
+  final Match match;
 
   @override
   Widget build(BuildContext context) {
@@ -365,14 +368,14 @@ class _EndPartButton extends StatelessWidget {
           }
           return OutlinedButton(
             onPressed: () {
-              final match = context.read<MatchBloc>();
+              final bloc = context.read<MatchBloc>();
               final timer = context.read<TimerCubit>();
               if (state.status == MatchStatus.second &&
                   state.matchSport == Team.sportFootball) {
-                match.add(FinishGameRequested());
+                bloc.add(FinishGameRequested());
                 timer.finishTimer();
               } else {
-                match.add(NextStageRequested());
+                bloc.add(NextStageRequested());
                 switch (state.status) {
                   case MatchStatus.notStarted:
                     timer.startTimer();
@@ -402,6 +405,14 @@ class _EndPartButton extends StatelessWidget {
                     timer.finishTimer();
                     break;
                   case MatchStatus.finished:
+                    final teamId = context.read<TeamBloc>().state.team.id;
+                    if (state.matchSport == Team.sportFootball) {
+                      bloc.postMatchEventsRequested(
+                        teamId,
+                        match.copyWith(isFinished: true),
+                        state.footballMatchEvents,
+                      );
+                    } else {}
                     Navigator.of(context).pop();
                     break;
                 }

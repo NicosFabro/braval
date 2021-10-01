@@ -7,12 +7,14 @@ class Match extends Event {
     required this.rival,
     required this.address,
     required this.isLocal,
+    required this.isFinished,
     required this.lineup,
   }) : super(id: id, date: date);
 
   final String rival;
   final String address;
   final bool isLocal;
+  final bool isFinished;
   final List<String> lineup;
 
   @override
@@ -22,6 +24,7 @@ class Match extends Event {
     String? rival,
     String? address,
     bool? isLocal,
+    bool? isFinished,
     List<String>? lineup,
   }) {
     return Match(
@@ -30,6 +33,7 @@ class Match extends Event {
       rival: rival ?? this.rival,
       address: address ?? this.address,
       isLocal: isLocal ?? this.isLocal,
+      isFinished: isFinished ?? this.isFinished,
       lineup: lineup ?? this.lineup,
     );
   }
@@ -40,6 +44,7 @@ class Match extends Event {
     rival: '',
     address: '',
     isLocal: false,
+    isFinished: false,
     lineup: [],
   );
 
@@ -55,6 +60,7 @@ class Match extends Event {
         rival,
         address,
         isLocal,
+        isFinished,
         lineup,
       );
 
@@ -64,6 +70,7 @@ class Match extends Event {
         rival: entity.rival,
         address: entity.address,
         isLocal: entity.isLocal,
+        isFinished: entity.isFinished,
         lineup: entity.lineup,
       );
 
@@ -74,6 +81,7 @@ class Match extends Event {
         rival,
         address,
         isLocal,
+        isFinished,
         lineup,
       ];
 }

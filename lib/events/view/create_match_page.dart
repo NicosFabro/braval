@@ -27,6 +27,7 @@ class CreateEditMatchPage extends StatefulWidget {
             rival: const Rival.pure(),
             address: const Address.pure(),
             isLocal: false,
+            isFinished: false,
             lineup: [],
           ),
           child: CreateEditMatchPage(date: date),
