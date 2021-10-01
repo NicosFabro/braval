@@ -108,11 +108,17 @@ class EventPage extends StatelessWidget {
             width: 300,
             child: ElevatedButton(
               onPressed: () {
-                Navigator.of(context).push(
-                  MatchPage.route(match: event as Match),
-                );
+                if ((event as Match).isFinished) {
+                  // TODO: Navigate to Results Page
+                } else {
+                  Navigator.of(context).push(
+                    MatchPage.route(match: event as Match),
+                  );
+                }
               },
-              child: const Text('INICIAR PARTIDO'),
+              child: Text((event as Match).isFinished
+                  ? 'VER RESULTADOS'
+                  : 'INICIAR PARTIDO'),
             ),
           ),
         ),
