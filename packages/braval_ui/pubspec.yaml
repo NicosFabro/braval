@@ -30,3 +30,7 @@ flutter:
           weight: 400
         - asset: assets/fonts/ProximaNova-Bold.otf
           weight: 700
+  assets:
+    - assets/img/study.png
+    - assets/img/football.png
+    - assets/img/basket.png

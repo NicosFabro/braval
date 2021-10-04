@@ -1,4 +1,5 @@
 import 'package:braval/profile/bloc/profile_bloc.dart';
+import 'package:braval/profile/view/player_profile_page.dart';
 import 'package:braval/team/team.dart';
 import 'package:braval_ui/braval_ui.dart';
 import 'package:flutter/material.dart';
@@ -62,9 +63,13 @@ class TeamView extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 16),
                 shrinkWrap: true,
                 itemCount: pState.teamPlayersProfiles.length,
-                itemBuilder: (context, i) => PlayerAvatar(
+                itemBuilder: (context, i) => PlayerAvatarName(
                   profile: pState.teamPlayersProfiles[i],
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(PlayerProfilePage.route(
+                      pState.teamPlayersProfiles[i],
+                    ));
+                  },
                 ),
               ),
             ),

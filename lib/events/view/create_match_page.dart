@@ -166,7 +166,7 @@ class _CreateEditMatchPageState extends State<CreateEditMatchPage> {
                         .read<ProfileBloc>()
                         .state
                         .teamPlayersProfiles[i];
-                    return PlayerAvatar(
+                    return PlayerAvatarName(
                       profile: profile,
                       isSelected: state.lineup.contains(profile.id),
                       onTap: () {

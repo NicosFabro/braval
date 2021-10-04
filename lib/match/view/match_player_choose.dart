@@ -53,7 +53,7 @@ class MatchPlayerChoose extends ModalRoute<String> {
                 padding: const EdgeInsets.only(top: 16),
                 shrinkWrap: true,
                 itemCount: list.length,
-                itemBuilder: (context, i) => PlayerAvatar(
+                itemBuilder: (context, i) => PlayerAvatarName(
                   profile: list[i],
                   onTap: () => Navigator.of(context).pop<String>(list[i].id),
                 ),
