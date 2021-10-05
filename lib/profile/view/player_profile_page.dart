@@ -1,3 +1,4 @@
+import 'package:braval/stats/stats.dart';
 import 'package:braval/team/team.dart';
 import 'package:braval_ui/braval_ui.dart';
 import 'package:flutter/material.dart';
@@ -53,13 +54,21 @@ class PlayerProfilePage extends StatelessWidget {
                     children: [
                       PlayerStatsButton(
                         type: StatsType.study,
-                        score: 4.8,
-                        onTap: () {},
+                        score: player.evaluationStudy,
+                        onTap: () {
+                          // Navigator.of(context).push(
+                          //   PlayerFootballStats.route(player),
+                          // );
+                        },
                       ),
                       PlayerStatsButton(
                         type: StatsType.football,
-                        score: 4.8,
-                        onTap: () {},
+                        score: player.evaluationMatch,
+                        onTap: () {
+                          Navigator.of(context).push(
+                            PlayerFootballStats.route(player),
+                          );
+                        },
                       ),
                     ],
                   ),
