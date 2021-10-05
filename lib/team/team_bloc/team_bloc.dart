@@ -45,6 +45,13 @@ class TeamBloc extends Bloc<TeamEvent, TeamState> {
     try {
       final team = state.team.copyWith();
 
+      for (final id in event.match.lineup) {
+        final playerIndex = team.players!.indexWhere((p) => p.id == id);
+        var player = team.players![playerIndex];
+        player = player.copyWith(assistanceMatch: player.assistanceMatch + 1);
+        team.players![playerIndex] = player;
+      }
+
       for (final goal in event.matchEvents.goals) {
         final playerIndex = team.players!.indexWhere(
           (p) => p.id == goal['player'],

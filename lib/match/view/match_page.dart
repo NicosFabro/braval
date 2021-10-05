@@ -414,6 +414,7 @@ class _EndPartButton extends StatelessWidget {
                       );
                       teamBloc.add(UpdatePlayerStatsRequested(
                         teamBloc.state.team.id,
+                        match,
                         state.footballMatchEvents.braval,
                       ));
                     } else {

@@ -17,12 +17,17 @@ class PlayerFootballStats extends StatelessWidget {
       );
 
   List<charts.Series<Assists, int>> getTrainingAssists(BuildContext context) {
+    final list = context
+        .read<EventsBloc>()
+        .state
+        .events
+        .whereType<Training>()
+        .where((training) => training.date!.isBefore(DateTime.now()));
     final data = <Assists>[
       Assists(0, player.assistanceTraining),
       Assists(
         1,
-        context.read<EventsBloc>().state.events.whereType<Training>().length -
-            player.assistanceTraining,
+        list.isEmpty ? 0 : list.length - player.assistanceTraining,
       ),
     ];
 
@@ -44,12 +49,18 @@ class PlayerFootballStats extends StatelessWidget {
   }
 
   List<charts.Series<Assists, int>> getMatchAssists(BuildContext context) {
+    final list = context
+        .read<EventsBloc>()
+        .state
+        .events
+        .whereType<Match>()
+        .where((match) => match.date!.isBefore(DateTime.now()));
+
     final data = <Assists>[
       Assists(0, player.assistanceMatch),
       Assists(
         1,
-        context.read<EventsBloc>().state.events.whereType<Match>().length -
-            player.assistanceMatch,
+        list.isEmpty ? 0 : list.length - player.assistanceMatch,
       ),
     ];
 
