@@ -14,3 +14,12 @@ class TeamFetchRequested extends TeamEvent {
   @override
   List<Object> get props => [teamId];
 }
+
+class UpdatePlayerStatsRequested extends TeamEvent {
+  const UpdatePlayerStatsRequested(this.teamId, this.matchEvents);
+  final String teamId;
+  final FootballBravalStats matchEvents;
+
+  @override
+  List<Object> get props => [teamId, matchEvents];
+}

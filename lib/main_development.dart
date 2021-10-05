@@ -16,7 +16,6 @@ import 'package:calendar_repository/calendar_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:profile_repository/profile_repository.dart';
-import 'package:stats_repository/stats_repository.dart';
 import 'package:team_repository/team_repository.dart';
 
 Future<void> main() async {
@@ -32,7 +31,6 @@ Future<void> main() async {
   final profileRepository = ProfileRepository();
   final teamRepository = TeamRepository();
   final calendarRepository = CalendarRepository();
-  final statsRepository = StatsRepository();
 
   await authenticationRepository.user.first;
 
@@ -43,7 +41,6 @@ Future<void> main() async {
         profileRepository: profileRepository,
         teamRepository: teamRepository,
         calendarRepository: calendarRepository,
-        statsRepository: statsRepository,
       ),
     ),
     (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),

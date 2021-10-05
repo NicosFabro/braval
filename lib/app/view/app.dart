@@ -12,7 +12,6 @@ import 'package:braval/l10n/l10n.dart';
 import 'package:braval/login/login.dart';
 import 'package:braval/profile/bloc/profile_bloc.dart';
 import 'package:braval/splash_screen/splash_screen.dart';
-import 'package:braval/stats/stats_bloc/stats_bloc.dart';
 import 'package:braval/team/team.dart';
 import 'package:braval_ui/braval_ui.dart';
 import 'package:calendar_repository/calendar_repository.dart';
@@ -20,7 +19,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:profile_repository/profile_repository.dart';
-import 'package:stats_repository/stats_repository.dart';
 import 'package:team_repository/team_repository.dart';
 
 class App extends StatelessWidget {
@@ -30,19 +28,16 @@ class App extends StatelessWidget {
     required ProfileRepository profileRepository,
     required TeamRepository teamRepository,
     required CalendarRepository calendarRepository,
-    required StatsRepository statsRepository,
   })  : _authenticationRepository = authenticationRepository,
         _profileRepository = profileRepository,
         _teamRepository = teamRepository,
         _calendarRepository = calendarRepository,
-        _statsRepository = statsRepository,
         super(key: key);
 
   final AuthenticationRepository _authenticationRepository;
   final ProfileRepository _profileRepository;
   final TeamRepository _teamRepository;
   final CalendarRepository _calendarRepository;
-  final StatsRepository _statsRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +47,6 @@ class App extends StatelessWidget {
         RepositoryProvider.value(value: _profileRepository),
         RepositoryProvider.value(value: _teamRepository),
         RepositoryProvider.value(value: _calendarRepository),
-        RepositoryProvider.value(value: _statsRepository),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -74,11 +68,6 @@ class App extends StatelessWidget {
           BlocProvider<EventsBloc>(
             create: (_) => EventsBloc(
               calendarRepository: _calendarRepository,
-            ),
-          ),
-          BlocProvider<StatsBloc>(
-            create: (_) => StatsBloc(
-              statsRepository: _statsRepository,
             ),
           ),
         ],
