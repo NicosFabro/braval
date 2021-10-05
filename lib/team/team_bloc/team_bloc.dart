@@ -88,11 +88,18 @@ class TeamBloc extends Bloc<TeamEvent, TeamState> {
         team.players![playerIndex] = player;
       }
 
-      await teamRepository.updatePlayerStats(event.teamId, team.players!);
+      await teamRepository.updatePlayerListStats(event.teamId, team.players!);
 
       yield state.copyWith(status: TeamStatus.success, team: team);
     } on Exception {
       yield state.copyWith(status: TeamStatus.failure);
     }
+  }
+
+  Future<void> updateStudyEvaluation(String teamId, TeamPlayer player) async {
+    try {
+      await teamRepository.updatePlayerStats(teamId, player);
+      add(TeamFetchRequested(teamId));
+    } on Exception {}
   }
 }

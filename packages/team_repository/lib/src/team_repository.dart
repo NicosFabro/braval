@@ -45,7 +45,7 @@ class TeamRepository {
     await ref.set(<String, dynamic>{'role': role, 'id': volunteerId});
   }
 
-  Future<void> updatePlayerStats(
+  Future<void> updatePlayerListStats(
     String teamId,
     List<TeamPlayer> players,
   ) async {
@@ -55,5 +55,13 @@ class TeamRepository {
           .doc(player.id)
           .set(player.toEntity().toDocument());
     }
+  }
+
+  Future<void> updatePlayerStats(
+    String teamId,
+    TeamPlayer player,
+  ) async {
+    final playersCollection = teamsCollection.doc(teamId).collection('players');
+    await playersCollection.doc(player.id).set(player.toEntity().toDocument());
   }
 }

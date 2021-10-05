@@ -58,7 +58,7 @@ class PlayerProfilePage extends StatelessWidget {
                         score: player.evaluationStudy,
                         onTap: () {
                           Navigator.of(context).push(
-                            PlayerStudyStats.route(player),
+                            PlayerStudyStats.route(player, profile),
                           );
                         },
                       ),
@@ -67,7 +67,7 @@ class PlayerProfilePage extends StatelessWidget {
                         score: player.evaluationMatch,
                         onTap: () {
                           Navigator.of(context).push(
-                            PlayerFootballStats.route(player),
+                            PlayerFootballStats.route(player, profile),
                           );
                         },
                       ),
