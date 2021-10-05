@@ -368,14 +368,15 @@ class _EndPartButton extends StatelessWidget {
           }
           return OutlinedButton(
             onPressed: () {
-              final bloc = context.read<MatchBloc>();
+              final matchBloc = context.read<MatchBloc>();
+              final teamBloc = context.read<TeamBloc>();
               final timer = context.read<TimerCubit>();
               if (state.status == MatchStatus.second &&
                   state.matchSport == Team.sportFootball) {
-                bloc.add(FinishGameRequested());
+                matchBloc.add(FinishGameRequested());
                 timer.finishTimer();
               } else {
-                bloc.add(NextStageRequested());
+                matchBloc.add(NextStageRequested());
                 switch (state.status) {
                   case MatchStatus.notStarted:
                     timer.startTimer();
@@ -405,14 +406,20 @@ class _EndPartButton extends StatelessWidget {
                     timer.finishTimer();
                     break;
                   case MatchStatus.finished:
-                    final teamId = context.read<TeamBloc>().state.team.id;
                     if (state.matchSport == Team.sportFootball) {
-                      bloc.postMatchEventsRequested(
-                        teamId,
+                      matchBloc.postMatchEventsRequested(
+                        teamBloc.state.team.id,
                         match.copyWith(isFinished: true),
                         state.footballMatchEvents,
                       );
-                    } else {}
+                      teamBloc.add(UpdatePlayerStatsRequested(
+                        teamBloc.state.team.id,
+                        match,
+                        state.footballMatchEvents.braval,
+                      ));
+                    } else {
+                      // TODO: post basket match events
+                    }
                     Navigator.of(context).pop();
                     break;
                 }
