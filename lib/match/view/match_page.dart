@@ -412,7 +412,9 @@ class _EndPartButton extends StatelessWidget {
                         match.copyWith(isFinished: true),
                         state.footballMatchEvents,
                       );
-                    } else {}
+                    } else {
+                      // TODO: post basket match events
+                    }
                     Navigator.of(context).pop();
                     break;
                 }
