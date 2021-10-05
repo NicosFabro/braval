@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:calendar_repository/calendar_repository.dart';
@@ -31,7 +32,8 @@ class TeamBloc extends Bloc<TeamEvent, TeamState> {
     try {
       final team = await teamRepository.getTeamById(event.teamId);
       yield state.copyWith(status: TeamStatus.success, team: team);
-    } catch (_) {
+    } on Exception catch (e) {
+      log(e.toString());
       yield state.copyWith(status: TeamStatus.failure);
     }
   }
@@ -41,7 +43,7 @@ class TeamBloc extends Bloc<TeamEvent, TeamState> {
   ) async* {
     yield state.copyWith(status: TeamStatus.loading);
     try {
-      var team = state.team.copyWith();
+      final team = state.team.copyWith();
 
       for (final goal in event.matchEvents.goals) {
         final playerIndex = team.players!.indexWhere(

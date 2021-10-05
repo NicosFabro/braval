@@ -6,6 +6,7 @@ class TeamPlayerEntity extends Equatable {
     this.id,
     this.position,
     this.schoolYear,
+    this.backNumber,
     this.assistanceStudy,
     this.assistanceMeeting,
     this.assistanceTraining,
@@ -24,6 +25,7 @@ class TeamPlayerEntity extends Equatable {
   final String id;
   final String position;
   final String schoolYear;
+  final int backNumber;
   final int assistanceStudy;
   final int assistanceMeeting;
   final int assistanceTraining;
@@ -42,6 +44,7 @@ class TeamPlayerEntity extends Equatable {
         'id': id,
         'position': position,
         'schoolYear': schoolYear,
+        'backNumber': backNumber,
         'assistanceStudy': assistanceStudy,
         'assistanceMeeting': assistanceMeeting,
         'assistanceTraining': assistanceTraining,
@@ -62,6 +65,7 @@ class TeamPlayerEntity extends Equatable {
         json['id'] as String,
         json['position'] as String,
         json['schoolYear'] as String,
+        json['backNumber'] as int,
         json['assistanceStudy'] as int,
         json['assistanceMeeting'] as int,
         json['assistanceTraining'] as int,
@@ -78,16 +82,23 @@ class TeamPlayerEntity extends Equatable {
       );
 
   static TeamPlayerEntity fromSnapshot(DocumentSnapshot snap) {
+    final evaluationStudyType = snap.get('evaluationStudy').runtimeType;
+    final evaluationMatchType = snap.get('evaluationMatch').runtimeType;
     return TeamPlayerEntity(
       snap.get('id') as String,
       snap.get('position') as String,
       snap.get('schoolYear') as String,
+      snap.get('backNumber') as int,
       snap.get('assistanceStudy') as int,
       snap.get('assistanceMeeting') as int,
       snap.get('assistanceTraining') as int,
       snap.get('assistanceMatch') as int,
-      (snap.get('evaluationStudy') as int).toDouble(),
-      (snap.get('evaluationMatch') as int).toDouble(),
+      evaluationStudyType == double
+          ? snap.get('evaluationStudy') as double
+          : (snap.get('evaluationStudy') as int).toDouble(),
+      evaluationMatchType == double
+          ? snap.get('evaluationMatch') as double
+          : (snap.get('evaluationMatch') as int).toDouble(),
       snap.get('goals') as int,
       snap.get('freeShot') as int,
       snap.get('shot') as int,
@@ -101,6 +112,8 @@ class TeamPlayerEntity extends Equatable {
   Map<String, dynamic> toDocument() => <String, dynamic>{
         'id': id,
         'position': position,
+        'schoolYear': schoolYear,
+        'backNumber': backNumber,
         'assistanceStudy': assistanceStudy,
         'assistanceMeeting': assistanceMeeting,
         'assistanceTraining': assistanceTraining,
@@ -120,6 +133,8 @@ class TeamPlayerEntity extends Equatable {
   List<Object?> get props => [
         id,
         position,
+        schoolYear,
+        backNumber,
         assistanceStudy,
         assistanceMeeting,
         assistanceTraining,

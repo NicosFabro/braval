@@ -6,6 +6,7 @@ class TeamPlayer extends Equatable {
     required this.id,
     required this.position,
     required this.schoolYear,
+    required this.backNumber,
     required this.assistanceStudy,
     required this.assistanceMeeting,
     required this.assistanceTraining,
@@ -24,6 +25,7 @@ class TeamPlayer extends Equatable {
   final String id;
   final String position;
   final String schoolYear;
+  final int backNumber;
   final int assistanceStudy;
   final int assistanceMeeting;
   final int assistanceTraining;
@@ -42,6 +44,7 @@ class TeamPlayer extends Equatable {
     String? id,
     String? position,
     String? schoolYear,
+    int? backNumber,
     int? assistanceStudy,
     int? assistanceMeeting,
     int? assistanceTraining,
@@ -60,6 +63,7 @@ class TeamPlayer extends Equatable {
       id: id ?? this.id,
       position: position ?? this.position,
       schoolYear: schoolYear ?? this.schoolYear,
+      backNumber: backNumber ?? this.backNumber,
       assistanceStudy: assistanceStudy ?? this.assistanceStudy,
       assistanceMeeting: assistanceMeeting ?? this.assistanceMeeting,
       assistanceTraining: assistanceTraining ?? this.assistanceTraining,
@@ -80,6 +84,7 @@ class TeamPlayer extends Equatable {
     id: '',
     position: '',
     schoolYear: '',
+    backNumber: 0,
     assistanceStudy: 0,
     assistanceMeeting: 0,
     assistanceTraining: 0,
@@ -103,6 +108,7 @@ class TeamPlayer extends Equatable {
         id,
         position,
         schoolYear,
+        backNumber,
         assistanceStudy,
         assistanceMeeting,
         assistanceTraining,
@@ -122,6 +128,7 @@ class TeamPlayer extends Equatable {
         id: entity.id,
         position: entity.position,
         schoolYear: entity.schoolYear,
+        backNumber: entity.backNumber,
         assistanceStudy: entity.assistanceStudy,
         assistanceMeeting: entity.assistanceMeeting,
         assistanceTraining: entity.assistanceTraining,
@@ -142,6 +149,7 @@ class TeamPlayer extends Equatable {
         id,
         position,
         schoolYear,
+        backNumber,
         assistanceStudy,
         assistanceMeeting,
         assistanceTraining,

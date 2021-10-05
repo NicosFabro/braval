@@ -21,6 +21,9 @@ class PlayerProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final teamBloc = context.read<TeamBloc>();
+    final player = teamBloc.state.team.players!.firstWhere(
+      (element) => element.id == profile.id,
+    );
     final sport = _getSportName(teamBloc.state.team.sport);
     final category = teamBloc.state.team.category.toLowerCase();
 
@@ -40,9 +43,9 @@ class PlayerProfilePage extends StatelessWidget {
                   BravalSpaces.mediumSeparator,
                   PlayerInfoCard(
                     team: '$sport $category',
-                    position: 'Portero',
-                    schoolYear: '3 ESO',
-                    backNumber: '6',
+                    position: player.position.capitalize(),
+                    schoolYear: player.schoolYear,
+                    backNumber: '${player.backNumber}',
                   ),
                   BravalSpaces.mediumSeparator,
                   Row(
@@ -67,5 +70,11 @@ class PlayerProfilePage extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+extension StringExtension on String {
+  String capitalize() {
+    return '${this[0].toUpperCase()}${substring(1)}';
   }
 }
